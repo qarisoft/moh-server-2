@@ -11,9 +11,9 @@ export default function Welcome({
 }: PageProps<{ laravelVersion: string; phpVersion: string }>) {
 
     return (
-        <Layout >
+        <div >
                 {/* <Index/> */}
-        </Layout>
+        </div>
     );
 }
 
