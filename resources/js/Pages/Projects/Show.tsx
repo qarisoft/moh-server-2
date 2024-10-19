@@ -79,7 +79,7 @@ export default function Show({project,customers}:{project:P,customers:Customer[]
             }
             })
     }
-    const ref = useRef()
+    const ref = useRef<HTMLInputElement>()
     const handelDelete=()=>{
 
     }
@@ -197,8 +197,8 @@ export default function Show({project,customers}:{project:P,customers:Customer[]
                     {/* <label htmlFor='upload' className='cursor-pointer'> */}
                     <Badge className='rounded-full ' onClick={(e)=>{
                             e.preventDefault()
-                            if(ref.current){
-                                ref.current.click()
+                            if(ref.current?.click){
+                                ref.current?.click()
                             }
                     }}>
 
