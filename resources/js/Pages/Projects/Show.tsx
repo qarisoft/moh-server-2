@@ -61,7 +61,7 @@ export default function Show({project,customers}:{project:P,customers:Customer[]
         apartment_id:0,
     })
 
-    const handelClick = (e)=>{
+    const handelClick = (e:any)=>{
         e.preventDefault()
         const path = `projects.${data.type}`
         console.log(path);
