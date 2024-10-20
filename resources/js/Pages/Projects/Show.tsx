@@ -279,7 +279,7 @@ const ImageUploader:FC<{pId:number,image?:string,inpRef:any,deleteImge:()=>void}
     },[data.photo])
     // console.log(errors);
     
-    return   <div className="relative w-full flex flex-col  p-2 text-center items-start justify-cente justify-between lg:w-[calc(96%/3)] " style={{ display:data.photo?'flex':'none' }}>
+    return   <div className="relative w-full flex  p-2 text-center items-start justify-cente justify-between lg:w-[calc(96%/3)] h-fit " style={{ display:data.photo?'flex':'none' }}>
     
             {data.photo?(
                 <>
