@@ -9,6 +9,7 @@ use Faker\Core\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class SellBookApartments extends Controller
 {
@@ -70,6 +71,15 @@ class SellBookApartments extends Controller
             // dd($path);
             // return Inertia::render('Projects/Index');
             // Project::find($request->id)->addMedia($path)->nonQueued();
+
+    }
+
+
+    public function delete(Media $image)
+    {
+        // $image->c
+
+        $image->delete();
 
     }
 

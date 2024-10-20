@@ -3,9 +3,9 @@ import { Project } from './Index'
 import Layout from '@/Layouts/Layout'
 import { Button, SegmentedControl, Spinner,Select, Badge } from '@radix-ui/themes'
 import { Switch } from '@headlessui/react'
-import { useForm } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 import { toast } from 'sonner'
-import { Delete, Pen, Plus, RefreshCcw, Upload } from 'lucide-react'
+import { Delete, DeleteIcon, Pen, Plus, RefreshCcw, Upload } from 'lucide-react'
 import { error } from 'console'
 // import { toast } from '@/Components/hooks/use-toast'
 // import { ToastAction } from '@/Components/ui/toast'
@@ -46,6 +46,7 @@ type Customer={
     updated_at: string
 }
 type Media={
+    id:number
     preview_url:string
     original_url:string
 }
@@ -210,8 +211,11 @@ export default function Show({project,customers}:{project:P,customers:Customer[]
                     <ImageUploader deleteImge={handelDelete} inpRef={ref} pId={project.id} />
 
                 {project.media.map((img,i)=>(
-                    <div key={i} className="bg-slate-200">
+                    <div key={i} className="bg-slate-200 relative">
                         <img src={img.original_url}/>
+                        <DeleteIcon onClick={()=>router.delete(route('projects.delete.image',img.id))}  className='absolute top-1/2 right-1/2 z-10 cursor-pointer '>
+                        {/* {img.id} */}
+                        </DeleteIcon>
                     </div>
                 ))}
 

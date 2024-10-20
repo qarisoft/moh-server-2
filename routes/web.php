@@ -23,8 +23,8 @@ Route::resource('projects',ProjectController::class);
 Route::post('/projects/{id}/book',[SellBookApartments::class, 'book'])->name('projects.book');
 Route::post('/projects/{id}/sell',[SellBookApartments::class, 'sell'])->name('projects.sell');
 Route::post('/projects/{id}/cancel',[SellBookApartments::class, 'cancel'])->name('projects.cancel');
-Route::post('/projects/{project}/upload',[SellBookApartments::class, 'upload'])->name('projects.add.photo');
-
+Route::post('/projects/{project}/image/upload',[SellBookApartments::class, 'upload'])->name('projects.add.photo');
+Route::delete('/projects/{image}/delete',[SellBookApartments::class, 'delete'])->name('projects.delete.image');
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
