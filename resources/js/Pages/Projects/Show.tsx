@@ -213,7 +213,7 @@ export default function Show({project,customers}:{project:P,customers:Customer[]
                 <ImageUploader deleteImge={handelDelete} inpRef={ref} pId={project.id} />
 
                 {project.media.map((img,i)=>(
-                    <div key={i} className="relative lg:w-[calc(96%/3)] bg-slate-400">
+                    <div key={i} className="relative lg:w-[calc(96%/3)] ">
                         <img src={img.original_url}/>
                         <button  
                         disabled={pending}
