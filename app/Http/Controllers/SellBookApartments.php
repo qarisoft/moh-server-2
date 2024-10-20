@@ -8,6 +8,7 @@ use App\Models\Project;
 use Faker\Core\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -80,6 +81,7 @@ class SellBookApartments extends Controller
         // $image->c
 
         $image->delete();
+        return Redirect::back()->with('success', 'Contact created.');
 
     }
 

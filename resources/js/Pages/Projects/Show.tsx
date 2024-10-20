@@ -87,13 +87,25 @@ export default function Show({project,customers}:{project:P,customers:Customer[]
   return (
     <Layout path='عقارات' sub={project.name}>
 
-        <div className=" w-full h-[2vh]  justify-between">
-            <SegmentedControl.Root defaultValue="0" value={active} onValueChange={(e)=>setActive(e)}>
+        <div className=" w-full h-[2vh] flex  justify-between items-center bg-slate-00 pt-2">
+            <SegmentedControl.Root defaultValue="0" value={active} onValueChange={(e)=>setActive(e)} className='mt-1'>
                 <SegmentedControl.Item value="1">{'صور'}</SegmentedControl.Item>
                 <SegmentedControl.Item value="0">{'شقق'}</SegmentedControl.Item>
             </SegmentedControl.Root>
 
+                <div className="flex justify-end p-2">
+                    {/* <label htmlFor='upload' className='cursor-pointer'> */}
+                    <Badge className='rounded-full ' onClick={(e)=>{
+                            e.preventDefault()
+                            if(ref.current?.click){
+                                ref.current?.click()
+                            }
+                    }}>
 
+                    <Plus    />
+                    </Badge>
+
+                </div>
         </div>
 
         <div className="h-4"></div>
@@ -192,28 +204,15 @@ export default function Show({project,customers}:{project:P,customers:Customer[]
         </>
 
         ):(
-            <div className="flex flex-col h-[86vh] overflow-auto gap-1">
+            <div className="flex flex-wrap h-[86vh] overflow-auto gap-1">
                     
-                <div className="flex justify-end p-2">
-                    {/* <label htmlFor='upload' className='cursor-pointer'> */}
-                    <Badge className='rounded-full ' onClick={(e)=>{
-                            e.preventDefault()
-                            if(ref.current?.click){
-                                ref.current?.click()
-                            }
-                    }}>
 
-                    <Plus    />
-                    </Badge>
-                    {/* </label> */}
-
-                </div>
                     <ImageUploader deleteImge={handelDelete} inpRef={ref} pId={project.id} />
 
                 {project.media.map((img,i)=>(
-                    <div key={i} className="bg-slate-200 relative">
+                    <div key={i} className="relative lg:w-[calc(96%/3)] ">
                         <img src={img.original_url}/>
-                        <DeleteIcon onClick={()=>router.delete(route('projects.delete.image',img.id))}  className='absolute top-1/2 right-1/2 z-10 cursor-pointer '>
+                        <DeleteIcon onClick={()=>router.delete(route('projects.delete.image',img.id))}  size={40} className=' opacity-55 hover:opacity-100   absolute bg-red-400 top-0 text-gray-200 p-2 z-10 cursor-pointer '>
                         {/* {img.id} */}
                         </DeleteIcon>
                     </div>

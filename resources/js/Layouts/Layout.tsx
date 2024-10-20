@@ -14,7 +14,7 @@ export default function Layout({children, path, sub}:PropsWithChildren<{path:str
             <div className="" dir={'rtl'}>
 
 
-                <div className=" flex justify-between items-center  lg:hidden fixed bg-slate-00 border-b w-full px-2 py-[2px]">
+                <div className=" flex justify-between items-center  fixed bg-slate-00 border-b w-full px-2 py-[2px]">
                     <img src={icon} alt="" height={40} width={40} />
                     <div className="shadow-md rounded-md p-[3px]">
                         <Menu/>
@@ -81,7 +81,7 @@ const SideBar = () => {
 
 const SideBarItem:FC<{active?:boolean}> = ({active=false})=>{
     return (
-        <div className={`flex justify-center py-[6px] rounded hover:bg-slate-100 ${active?'bg-slate-100':''}`}>
+        <div className={`flex justify-center py-[6px] rounded hover:bg-slate-100 ${active?'bg-slate-100':''} lg:justify-start lg:ps-2`}>
 
             <div className={`${active?'bg-blue-600 hover:bg--100':'bg-white text-blue-600 '}  cursor-pointer  rounded-[12px]  shadow-lg drop-shadow-sm   p-[8px]  md:p-2  w-fit`}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4">
