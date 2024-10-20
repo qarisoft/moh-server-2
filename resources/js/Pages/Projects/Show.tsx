@@ -84,6 +84,9 @@ export default function Show({project,customers}:{project:P,customers:Customer[]
     const handelDelete=()=>{
 
     }
+
+
+    const [pending,setPending]=useState(false)
   return (
     <Layout path='عقارات' sub={project.name}>
 
@@ -204,17 +207,38 @@ export default function Show({project,customers}:{project:P,customers:Customer[]
         </>
 
         ):(
-            <div className="flex flex-wrap h-[86vh] overflow-auto gap-1">
+            <div className="flex flex-wrap h-[86vh] overflow-auto gap-1 justify-evenly" dir='rtl'>
                     
 
-                    <ImageUploader deleteImge={handelDelete} inpRef={ref} pId={project.id} />
+                <ImageUploader deleteImge={handelDelete} inpRef={ref} pId={project.id} />
 
                 {project.media.map((img,i)=>(
-                    <div key={i} className="relative lg:w-[calc(96%/3)] ">
+                    <div key={i} className="relative lg:w-[calc(96%/3)] bg-slate-400">
                         <img src={img.original_url}/>
-                        <DeleteIcon onClick={()=>router.delete(route('projects.delete.image',img.id))}  size={40} className=' opacity-55 hover:opacity-100   absolute bg-red-400 top-0 text-gray-200 p-2 z-10 cursor-pointer '>
+                        <button  
+                        disabled={pending}
+                        onClick={()=>{
+                            setPending(true)
+                            
+                            router.delete(route('projects.delete.image',img.id),{
+                                onSuccess:()=>{
+                                    toast.success('image deleted successfully')
+                                    
+                                },
+                                onError:(e)=>{
+                                    toast.error(`${Object.values(e)}`)
+                                },
+                                onFinish:()=>{
+                                    setPending(false)
+                                }
+                                
+                            })
+                            }
+                    }   className=' opacity-55 hover:opacity-100   absolute bg-red-400 top-0 text-gray-200 p-2 z-10 cursor-pointer '>
                         {/* {img.id} */}
-                        </DeleteIcon>
+                       
+                       <DeleteIcon/>
+                        </button>
                     </div>
                 ))}
 
@@ -244,6 +268,7 @@ const ImageUploader:FC<{pId:number,image?:string,inpRef:any,deleteImge:()=>void}
             onSuccess:()=>{
                 setData('uploaded',true)
                 reset('photo')
+                toast.success('image add successfully')
             }
         })
     }
@@ -254,11 +279,11 @@ const ImageUploader:FC<{pId:number,image?:string,inpRef:any,deleteImge:()=>void}
     },[data.photo])
     // console.log(errors);
     
-    return   <div className="relative w-full flex flex-col  p-2 text-center items-start justify-cente justify-between">
+    return   <div className="relative w-full flex flex-col  p-2 text-center items-start justify-cente justify-between lg:w-[calc(96%/3)] " style={{ display:data.photo?'flex':'none' }}>
     
             {data.photo?(
                 <>
-                    <img className='rounded' src={URL.createObjectURL(data.photo)}   />
+                    <img className='rounded   ' src={URL.createObjectURL(data.photo)}   />
 
                         <div className={`absolute  top-1/2 right-1/2  translate-x-1/2 -translate-y-1/2  w-full h-full bg-slate-900  
                             ${progress?(' opacity-40 '):'opacity-20'}

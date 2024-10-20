@@ -14,7 +14,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       position="top-right"
       expand={false}
       
-      className="toaster group w-fit"
+      className="toaster group "
       toastOptions={{
         classNames: {
           toast:

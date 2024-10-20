@@ -37,7 +37,8 @@ export default function Layout({children, path, sub}:PropsWithChildren<{path:str
                                     </>
                                 )}
                             </div>
-                            <Toaster richColors style={{ maxWidth:'20rem' }}/>
+                            {/* <Toaster richColors style={{ maxWidth:'20rem' }} className="lg:hidden" /> */}
+                            <Toaster richColors  position="top-left" className=" lg:block" />
                             <div className="">
 
                                 {children}
