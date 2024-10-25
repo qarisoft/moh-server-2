@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import {Project} from './Index'
 import {Button, SegmentedControl, Spinner, Select, Badge} from '@radix-ui/themes'
-import {InertiaFormProps, router, useForm} from '@inertiajs/react'
+import { router, useForm} from '@inertiajs/react'
 import {toast} from 'sonner'
 import {
     ArrowDownIcon,
@@ -20,6 +20,7 @@ import {
 } from 'lucide-react'
 import PageLayout from "@/Pages/Projects/layout";
 import {Input} from "@/Components/ui/Input";
+// import {InertiaFormProps} from "@inertiajs/react/types/useForm";
 
 type F = {
     id: number
@@ -101,7 +102,7 @@ export default function Show({project, customers}: { project: P, customers: Cust
 
     const [imgDel,setImgDel] = useState(0)
     const handelDelete = (id:number) => setImgDel(id)
-    const detailsForm = useForm({
+    const dForm = useForm({
         name: project.name,
         description: project.description,
     })
@@ -367,7 +368,7 @@ export default function Show({project, customers}: { project: P, customers: Cust
 
                     </>
                 ) : (
-                    <ProjectDetails form={detailsForm}/>
+                    <ProjectDetails setData={dForm.setData} data={dForm.data} processing={dForm.processing} />
 
 
                 )}
@@ -409,17 +410,17 @@ const FloorCard = ({children, fl}: PropsWithChildren<{ fl: F }>) => {
     </>
 }
 
+// const a = useForm()
+// type aa = InertiaFormProps<{ name: string; description: string; }>
 
-type aa = InertiaFormProps<{ name: string; description: string; }>
-
-const ProjectDetails: FC<{ form: aa }> = ({form}) => {
-    const data = form.data
+const ProjectDetails: FC<{processing:boolean, data:{name:string,description:string},setData:(a:string,b:string)=>void}> = ({data,processing,setData}) => {
+    // const data = form.data
 
     const handelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        form.setData('name', e.target.value)
+        setData('name', e.target.value)
     }
     const handelChange2 = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        form.setData('description', e.target.value)
+        setData('description', e.target.value)
     }
     const [d, setD] = useState(false)
     return (
@@ -434,7 +435,7 @@ const ProjectDetails: FC<{ form: aa }> = ({form}) => {
 
                 <div className="mt-auto">
                     <button className={`bg-blue-500 rounded text-gray-50    px-4 py-1 ${d ? 'bg-blue-400' : ''}`}
-                            onMouseDown={() => setD(true)} onMouseUp={() => setD(false)} disabled={form.processing}>
+                            onMouseDown={() => setD(true)} onMouseUp={() => setD(false)} disabled={processing}>
                         save
                     </button>
                 </div>
