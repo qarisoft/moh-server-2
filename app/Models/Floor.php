@@ -14,7 +14,8 @@ class Floor extends Model
 
     protected $fillable=[
         'number',
-        'apartment_count'
+        'apartment_count',
+        'project_id'
     ];
     protected $gaurded = [];
 
@@ -34,6 +35,7 @@ class Floor extends Model
     protected static function booted()
     {
         static::created(function($floor){
+//            $floor->number=Floor::query()->where('project_id',$floor->project_id)->count();
             $floor->number = $floor->project->floors()->count();
             $floor->save();
         });

@@ -24,6 +24,7 @@ import {Input} from "@/Components/ui/Input";
 
 type F = {
     id: number
+    number:number
     apartments: Ap[]
 }
 type Ap = {
@@ -70,6 +71,7 @@ const Btn = ({children,className,a,b,onClick,disabled}:PropsWithChildren<{classN
 }
 
 export default function Show({project, customers}: { project: P, customers: Customer[] }) {
+    console.log(project)
     const [active, setActive] = useState('0')
     const {data, setData, post, processing, errors, reset, clearErrors} = useForm({
         customer_id: '',
@@ -390,7 +392,7 @@ const FloorCard = ({children, fl}: PropsWithChildren<{ fl: F }>) => {
                 onClick={() => setVisible(c => !c)}
                 className=" sticky w-[98%]  flex top-0 ring-0 bg-blue-00 justify-between  shadow bg-gray-50 p-2 m-1">
                 <div className="">
-                    {'الطابق '}: {fl.id}
+                    {'الطابق '}: {fl.number}
 
                 </div>
                 <div className={'ms-auto'}>

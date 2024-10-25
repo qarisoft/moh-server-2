@@ -50,6 +50,7 @@ const Add = ()=>{
         description:'',
     })
     const onSubmit = ()=>{
+        console.log(data)
         post(route('projects.store'),{
             onSuccess:()=>{
                 toast.success('تم انشاء المشروع بنجاح')
@@ -78,7 +79,7 @@ const Add = ()=>{
             }
 
     },[isDirty,setOpen2,close1])
-    const plus = useCallback((item:A, {f = false, ap = false, minus = false})=>{
+    const plus =(item:A, {f = false, ap = false, minus = false})=>{
         setData(c=>({...c,items:
                 c.items.map((itm,i)=>{
                     if (itm.id===item.id){
@@ -100,7 +101,7 @@ const Add = ()=>{
                     return itm
                 })
         }))
-    },[])
+    }
     const Box =({item,f}:{item: A, f?: boolean})=> (
         <div className="flex-1 flex justify-between border p-1 rounded-md items-center bg-gray-00">
                 <Btn rounded className={'size-5'} children={
