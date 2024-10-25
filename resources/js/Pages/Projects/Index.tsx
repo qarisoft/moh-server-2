@@ -67,8 +67,10 @@ const Add = ()=>{
     }
 
     const onOpen = useCallback((o:boolean)=>{
-            if(isDirty){
-                setOpen2(true)
+            if(!o ){
+                if(isDirty){
+                    setOpen2(true)
+                }
             }else {
                 close1(o)
             }
