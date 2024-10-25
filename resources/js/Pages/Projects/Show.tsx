@@ -9,10 +9,9 @@ import {Project} from './Index'
 import {router, useForm} from '@inertiajs/react'
 import {toast} from 'sonner'
 import {
-    ArrowDownIcon,
-    ArrowLeft, ChevronDown, ChevronLeft,
+ ChevronDown, ChevronLeft,
     Delete,
-    DeleteIcon,
+    DeleteIcon, Minus,
     Plus, Trash2,
     TrashIcon,
     Upload
@@ -23,19 +22,16 @@ import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogFooter,
+    DialogFooter, DialogHeader,
     DialogTitle,
     DialogTrigger
 } from "@/Components/ui/dialog";
 import Spinner from "@/Components/ui/spinner";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/Components/ui/taps";
 import {Button} from "@/Components/ui/button";
-import {Badge} from "@/Components/ui/badge";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/Components/ui/select";
-import  {cn} from "@/lib/utils";
-import {DialogBackdrop} from "@headlessui/react";
 import useLongPress from "@/lib/use-longpres";
-// import {InertiaFormProps} from "@inertiajs/react/types/useForm";
+import {Btn} from "@/Components/Btn";
 
 type F = {
     id: number
@@ -78,23 +74,215 @@ type Media = {
     original_url: string
 }
 
-
-const Btn = ({children, className, a, b, onClick, disabled}: PropsWithChildren<{
-    className: string,
-    a: string,
-    b: string,
-    onClick: React.MouseEventHandler<HTMLButtonElement> | undefined,
-    disabled?: boolean | undefined
-}>) => {
-    const [aa, stA] = useState(false)
-    return <button onClick={onClick} onMouseDown={() => stA(true)} onMouseUp={() => stA(false)} disabled={disabled}
-                   className={`${aa ? `${b} shadow drop-shadow` : `${a} `}   ${className}`}>{children}</button>
+type  A = {
+    id: number
+    floor: number
+    apartments: number
 }
+
+
+// const Btn = ({children, className, a, b, onClick, disabled}: PropsWithChildren<{
+//     className: string,
+//     a: string,
+//     b: string,
+//     onClick: React.MouseEventHandler<HTMLButtonElement> | undefined,
+//     disabled?: boolean | undefined
+// }>) => {
+//     const [aa, stA] = useState(false)
+//     return <button onClick={onClick} onMouseDown={() => stA(true)} onMouseUp={() => stA(false)} disabled={disabled}
+//                    className={`${aa ? `${b} shadow drop-shadow` : `${a} `}   ${className}`}>{children}</button>
+// }
+const Add: FC<{ id: number }> = ({id}) => {
+    const {data, processing, setData, reset, post, errors, isDirty} = useForm<{ items: A[] }>({
+        items: [],
+    })
+    const onSubmit = () => {
+        post(route('projects.add.floor-ap', id), {
+            onSuccess: () => {
+                toast.success('تم انشاء المشروع بنجاح')
+                close1(false)
+            },
+        })
+    }
+    const [open, setOpen] = useState(false)
+    const [open2, setOpen2] = useState(false)
+
+
+    const close1 = (o: boolean) => {
+        reset('items')
+        setOpen(o)
+    }
+
+    const onOpen = useCallback((o: boolean) => {
+        if (!o) {
+            if (isDirty) {
+                setOpen2(true)
+            } else {
+                close1(o)
+            }
+        } else {
+            close1(o)
+        }
+
+    }, [isDirty, setOpen2, close1])
+    const plus = (item: A, {f = false, ap = false, minus = false}) => {
+        setData(c => ({
+            ...c, items:
+                c.items.map((itm, i) => {
+                    if (itm.id === item.id) {
+                        if (f) {
+                            if (minus) {
+                                if (itm.floor > 1) itm.floor--
+                            } else {
+                                itm.floor++
+                            }
+                        } else {
+                            if (minus) {
+                                if (itm.apartments > 0) itm.apartments--
+                            } else {
+                                itm.apartments++
+                            }
+                        }
+                    }
+                    return itm
+                })
+        }))
+    }
+    const Box = ({item, f}: { item: A, f?: boolean }) => (
+        <div className="flex-1 flex justify-between border p-1 rounded-md items-center bg-gray-00">
+            <Btn rounded className={'size-5'} children={
+                <Plus size={'15'} onClick={() => plus(item, {f,})}/>
+            }/>
+
+            <div className="flex-1 text-center">{f ? (item.floor) : (item.apartments)}</div>
+            <Btn rounded className={'size-5 '} children={
+                <Minus className={'w-4'} onClick={() => plus(item, {f, minus: true})}/>
+            }/>
+
+            <div className=" flex-1 text-center">{f ? ('ط') : ('ش')}</div>
+        </div>
+    )
+    return (
+        <>
+            <Dialog open={open2}>
+                <DialogContent dir={'rtl'} className={'max-w-fit rounded '}>
+                    <DialogDescription>
+                        <span className={'font-xs'}>
+
+                        هل تريد الغاء الأنشاء
+                        </span>
+                    </DialogDescription>
+                    <DialogTitle>
+
+                        <div className=" text-center">تاكيد الالغاء</div>
+                    </DialogTitle>
+                    <DialogFooter className={'flex'}>
+                        <div className="flex justify-center pt-2 gap-4">
+
+
+                            <Button onClick={() => {
+                                setOpen2(false)
+
+                            }} variant={'outline'}>الغاء</Button>
+                            <Button onClick={() => {
+                                close1(false)
+                                setOpen2(false)
+                            }}
+                            >تاكيد</Button>
+                        </div>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+            <Dialog onOpenChange={onOpen} open={open} modal>
+
+                <DialogTrigger>
+                    <Btn
+                        onClick={() => setOpen(true)}
+                        className={`rounded-full text-gray-700`}
+                    >
+                        <Plus/>
+                    </Btn>
+                </DialogTrigger>
+
+                <DialogContent className={'p-4 w-[90%]  rounded'} dir={'rtl'}>
+                    <DialogDescription>انشاء شقق جديدة للمشروع </DialogDescription>
+                    <DialogHeader>
+                        <DialogTitle>اضافة مشروع جديد</DialogTitle>
+
+                    </DialogHeader>
+                    <div className="space-y-1 p-4">
+
+                        <div className="flex justify-between pt-2">
+
+                            <div className="flex gap-2 pb-2 items-center">
+
+                                <div className="">الطوابق</div>
+                                {errors.items && (
+                                    <span>{errors.items}</span>
+                                )}
+                                <Btn rounded onClick={() => setData(c => ({
+                                    ...c,
+                                    items: [...c.items, {floor: 1, apartments: 1, id: c.items.length}]
+                                }))}>
+                                    <Plus size={20} className={'my-auto -gray-600'}/>
+                                </Btn>
+                            </div>
+                            <div className="flex">
+                                <div className="">{data.items.length}</div>
+                            </div>
+                        </div>
+
+
+                        <div className=" space-y-1 max-h-[20vh] sm:max-h-[15vh]  min-h-2  overflow-y-auto  rounded-md ">
+                            <table className={'w-full '}>
+                                <tbody className={'max-h-[10vh] overflow-y-auto'}>
+
+                                {data.items.map((item, i) => (
+                                    <tr key={i} className={'group'}>
+
+                                        <td className={'bg-gray-00  h-fit'}>
+                                            <Btn a={''} b={''}
+                                                 onClick={() => setData(c => ({
+                                                     ...c,
+                                                     items: c.items.filter((it) => it.id != item.id)
+                                                 }))}
+                                                 children={
+                                                     <Trash2 size={14} className={'text-red-500 '}/>
+                                                 }/>
+                                        </td>
+
+                                        <td className={'bg-gray-00'}><Box item={item} f/></td>
+                                        <td><Box item={item}/></td>
+
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <DialogFooter>
+                        <div className="flex w-full">
+
+                            <Button loading={processing} onClick={onSubmit} className={'w-full flex-1'}>
+                                save
+                            </Button>
+                        </div>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+        </>
+
+    )
+}
+
 
 export default function Show({project, customers}: { project: P, customers: Customer[] }) {
     console.log(project)
     const [active, setActive] = useState('0')
-    const {data, setData, post, processing, errors, reset, clearErrors} = useForm({
+    const {data, setData, post, processing, errors, reset, clearErrors} = useForm('sell-book', {
+        project_id: project.id,
         customer_id: '',
         type: 'book',
         apartment_id: 0,
@@ -103,13 +291,13 @@ export default function Show({project, customers}: { project: P, customers: Cust
         address: '',
         phone: '',
     })
+
     const closeDialog = useCallback(() => {
-        reset('customer_id','create_customer','apartment_id')
+        reset('customer_id', 'create_customer', 'apartment_id')
         clearErrors()
-    },[])
+    }, [])
     const handelClick = (e: any) => {
         const path = `projects.${data.type}`
-
         post(route(path, data.apartment_id), {
             onSuccess: () => {
                 closeDialog()
@@ -125,13 +313,13 @@ export default function Show({project, customers}: { project: P, customers: Cust
 
     const [imgDel, setImgDel] = useState(0)
     const handelDelete = (id: number) => setImgDel(id)
-    const dForm = useForm({
+    const dForm = useForm('edit_project', {
         name: project.name,
         description: project.description,
     })
     const handelTab = (e: string) => setActive(e)
     const [pending, setPending] = useState(false)
-    const cl='bg-slate-100  overflow-auto rounded-md shadow h-[calc(100vh-190px)] md:h-[calc(100vh-225px)]'
+    const cl = 'bg-slate-100  overflow-auto rounded-md shadow h-[calc(100vh-190px)] md:h-[calc(100vh-225px)]'
     return (
         <PageLayout title={'عقار'} subTitle={project.name}>
             <div
@@ -161,22 +349,22 @@ export default function Show({project, customers}: { project: P, customers: Cust
                         <div className="h-2"></div>
                         <div className={cl}>
 
-                        <div className="flex flex-wrap justify-center gap-1 ">
-                            <ImageUploader inpRef={ref} pId={project.id}/>
-                            {project.media.map((img, i) => (
-                                <div key={i} className="relative lg:w-[calc(96%/3)] ">
-                                    <img src={img.original_url}/>
-                                    <Btn
-                                        a={'bg-red-400'}
-                                        b={'bg-red-500'}
-                                        disabled={pending}
-                                        onClick={() => handelDelete(img.id)}
-                                        className=' opacity-55 hover:opacity-100 absolute bg-red-400 top-0 right-0 text-gray-200 py-1 px-2  z-10 rounded'>
-                                        <DeleteIcon/>
-                                    </Btn>
-                                </div>
-                            ))}
-                        </div>
+                            <div className="flex flex-wrap justify-center gap-1 ">
+                                <ImageUploader inpRef={ref} pId={project.id}/>
+                                {project.media.map((img, i) => (
+                                    <div key={i} className="relative lg:w-[calc(96%/3)] ">
+                                        <img src={img.original_url}/>
+                                        <Btn
+                                            a={'bg-red-400'}
+                                            b={'bg-red-500'}
+                                            disabled={pending}
+                                            onClick={() => handelDelete(img.id)}
+                                            className=' opacity-55 hover:opacity-100 absolute bg-red-400 top-0 right-0 text-gray-200 py-1 px-2  z-10 rounded'>
+                                            <DeleteIcon/>
+                                        </Btn>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
 
 
@@ -240,7 +428,9 @@ export default function Show({project, customers}: { project: P, customers: Cust
                         </>
                     </TabsContent>
                     <TabsContent value='0' className={''}>
-                        <div className="w-full  flex-1 flex justify-end items-center  p-[4px]  h-[40px]   -top-0">
+                        <div className="w-full  flex-1 flex justify-between items-center  p-[4px]  h-[40px]   -top-0">
+                            <Add id={project.id}/>
+
                             <div className="flex gap-2 text-xs justify-self-end items-center ">
                                 <div className="">متاح</div>
                                 <span className="size-4 rounded-full bg-sky-500"></span>
@@ -374,21 +564,21 @@ export default function Show({project, customers}: { project: P, customers: Cust
 
 const FloorCard = ({children, fl}: PropsWithChildren<{ fl: F }>) => {
     const [visible, setVisible] = useState<boolean>(true);
-    const {data, post,processing,setData,reset} = useForm({
-        floor_id:fl.id,
+    const {data, post, processing, setData, reset} = useForm('create_apartment', {
+        floor_id: fl.id,
         open: false,
     })
-    const m= 'تم اضافة شقة جديدة في الطابق '
-    const handelSubmit = useCallback((e)=>{
+    const m = 'تم اضافة شقة جديدة في الطابق '
+    const handelSubmit = useCallback((e: { stopPropagation: () => void }) => {
         e.stopPropagation()
-        post(route('floors.store'),{
-            onSuccess:()=>{
+        post(route('floors.store'), {
+            onSuccess: () => {
                 toast.success(`${fl.number} ${m}`)
                 reset('open')
 
             }
         })
-    },[])
+    }, [])
     return <>
 
 
@@ -398,17 +588,14 @@ const FloorCard = ({children, fl}: PropsWithChildren<{ fl: F }>) => {
                 className=" sticky w-[98%]  flex top-0 ring-0 bg-blue-00 justify-between  shadow bg-gray-50 p-2 m-1">
                 <div className="flex gap-4 items-center h-7">
                     <div className="">
-                    {'الطابق '}: {fl.number}
+                        {'الطابق '}: {fl.number}
                     </div>
-                    <Dialog   open={data.open} onOpenChange={(e)=>setData('open',e)}>
-                        <DialogTrigger onClick={(e)=>e.stopPropagation()}>
-
-
-                        <div
-                            // onClick={}
-                            className="rounded-full bg-gray-200 p-1 ">
-                            <Plus size={20}/>
-                        </div>
+                    <Dialog open={data.open} onOpenChange={(e) => setData('open', e)}>
+                        <DialogTrigger onClick={(e) => e.stopPropagation()}>
+                            <div
+                                className="rounded-full bg-gray-200 p-1 ">
+                                <Plus size={20}/>
+                            </div>
                         </DialogTrigger>
                         <DialogContent dir={'rtl'} className={'w-fit  rounded-xl'}>
                             <div className="min-w-[10rem]"></div>
@@ -417,7 +604,7 @@ const FloorCard = ({children, fl}: PropsWithChildren<{ fl: F }>) => {
                             <div className="h-2"></div>
                             <DialogFooter>
 
-                            <Button  loading={processing} onClick={handelSubmit} >{'تاكيد'}</Button>
+                                <Button loading={processing} onClick={handelSubmit}>{'تاكيد'}</Button>
                             </DialogFooter>
 
                         </DialogContent>
@@ -429,7 +616,7 @@ const FloorCard = ({children, fl}: PropsWithChildren<{ fl: F }>) => {
                         <ChevronDown size={20}/>
 
                     ) : (
-                        <ChevronLeft size={20} />
+                        <ChevronLeft size={20}/>
                     )}
                 </div>
             </div>
@@ -577,54 +764,54 @@ const ImageUploader: FC<{ pId: number, image?: string, inpRef: any, }> = ({
 
 const ApartmentCard: FC<{ ap: Ap, onClick: (t: string) => void, open: number }> = ({ap, onClick, open}) => {
     const a = `${ap.is_booked ? 'bg-violet-500' : (ap.is_soled ? 'bg-orange-500' : 'bg-sky-500')}`
-    const {data,setData,post,processing,delete:deletE}=useForm({
-        open:false,
-        apartment_id:ap.id
+    const {data, setData, post, processing, delete: deletE} = useForm({
+        open: false,
+        apartment_id: ap.id
     })
     const longPress = useLongPress({
-        onLongPress:()=>{
-            setData('open',true)
-        },onClick:()=>{
-                if (ap.is_booked || ap.is_soled) {
-                    onClick('cancel')
-                }else {
-                    onClick('book')
-                }
+        onLongPress: () => {
+            setData('open', true)
+        }, onClick: () => {
+            if (ap.is_booked || ap.is_soled) {
+                onClick('cancel')
+            } else {
+                onClick('book')
+            }
         }
     });
-    const handelSubmit = ()=>{
-        deletE(route('apartments.destroy',ap.id),{
-            onSuccess:()=>{
+    const handelSubmit = () => {
+        deletE(route('apartments.destroy', ap.id), {
+            onSuccess: () => {
                 toast.success('تم حذف الشقة بنجاح')
             }
         })
     }
     return (
 
-    <>
-        <div
-            style={{zIndex:0}}
-            className={ `rounded-lg p-1 flex items-center justify-center px-2  cursor-pointer w-[calc(95vw/7)] z-0 ${a}  hover:bg-${a}-200`}
-        >
+        <>
+            <div
+                style={{zIndex: 0}}
+                className={`rounded-lg p-1 flex items-center justify-center px-2  cursor-pointer w-[calc(95vw/7)] z-0 ${a}  hover:bg-${a}-200`}
+            >
                 <div
                     {...longPress}
                     className="text-gray-100   w-full ">{ap.number}</div>
-        </div>
-        <Dialog open={data.open}
-                onOpenChange={(e)=>{
-                    if(!e) {
-                    setData('open',false)
-                    }
-                }}
-        >
-            <DialogContent   className={'max-w-[10rem] rounded-xl'} dir={'rtl'}>
-                <DialogTitle>{'حذف الشقة !!'}</DialogTitle>
+            </div>
+            <Dialog open={data.open}
+                    onOpenChange={(e) => {
+                        if (!e) {
+                            setData('open', false)
+                        }
+                    }}
+            >
+                <DialogContent className={'max-w-[10rem] rounded-xl'} dir={'rtl'}>
+                    <DialogTitle>{'حذف الشقة !!'}</DialogTitle>
                     <DialogDescription></DialogDescription>
-                <DialogFooter>
-                        <Button  loading={processing} onClick={handelSubmit} >{'حذف'}</Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+                    <DialogFooter>
+                        <Button loading={processing} onClick={handelSubmit}>{'حذف'}</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </>)
 }
 

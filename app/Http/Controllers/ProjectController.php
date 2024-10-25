@@ -8,6 +8,8 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Customer;
+//use http\Env\Request;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 //use Pest\ArchPresets\Custom;
 
@@ -49,6 +51,15 @@ class ProjectController extends Controller
                 Floor::factory()->count($item['floor'])
                     ->has(Apartment::factory()->count($item['apartments']))
                     ->create(['project_id'=>$project->id]);
+        }
+    }
+    public function addFloorWithApartments(Project $project,Request $request)
+    {
+        $request->validate(['items'=>'array']);
+        foreach ($request->items as $item) {
+            Floor::factory()->count($item['floor'])
+                ->has(Apartment::factory()->count($item['apartments']))
+                ->create(['project_id'=>$project->id]);
         }
     }
 
@@ -97,4 +108,9 @@ class ProjectController extends Controller
     {
         //
     }
+
+
+
+
+
 }

@@ -29,6 +29,7 @@ Route::post('/projects/{id}/cancel',[SellBookApartments::class, 'cancel'])->name
 Route::post('/projects/{project}/image/upload',[SellBookApartments::class, 'upload'])->name('projects.add.photo');
 Route::delete('/projects/{image}/delete',[SellBookApartments::class, 'delete'])->name('projects.delete.image');
 
+Route::post('/projects/{project}/add-floor-ap',[ProjectController::class, 'addFloorWithApartments'])->name('projects.add.floor-ap');
 
 
 
