@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Apartment;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
@@ -42,13 +43,12 @@ class ProjectController extends Controller
             'name'=>$request->name,
             'description'=>$request->description
         ]);
-//        dd($project);
         foreach ($request->items as $item) {
             for ($i = 0; $i < $item['floor']; $i++) {
                 $f=$project->floors()->create();
-                for ($i = 0; $i < $item['apartments']; $i++){
-                    $f->apartments()->create();
-                }
+//                for ($i = 0; $i < $item['apartments']; $i++){
+                    Apartment::factory($item['apartments'])->create(['floor_id'=>$f->id]);
+//                }
 
             }
         }

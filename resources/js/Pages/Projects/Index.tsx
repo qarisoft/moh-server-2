@@ -230,7 +230,6 @@ const Add = ()=>{
 
 
 function Index({data}: { data: Paginate<P> }) {
-    console.log(data);
 
     return (
         <PageLayout
