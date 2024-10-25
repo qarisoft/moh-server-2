@@ -208,7 +208,7 @@ const Add = ()=>{
                 </div>
 
                 <DialogFooter>
-                    <div className="flex">
+                    <div className="flex w-full">
 
                     <Button loading={processing} onClick={onSubmit} className={'w-full flex-1'}>
                         save
