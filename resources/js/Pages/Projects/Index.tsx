@@ -53,7 +53,7 @@ const Add = ()=>{
         post(route('projects.store'),{
             onSuccess:()=>{
                 toast.success('تم انشاء المشروع بنجاح')
-                setOpen(false)
+                close1(false)
             },
         })
     }
@@ -64,15 +64,16 @@ const Add = ()=>{
     const close1 = (o:boolean)=>{
         reset('items','name','description')
         setOpen(o)
-        // setOpen2(o)
     }
 
     const onOpen = useCallback((o:boolean)=>{
             if(isDirty){
                 setOpen2(true)
-            }else close1(o)
+            }else {
+                close1(o)
+            }
 
-    },[isDirty])
+    },[isDirty,setOpen2,close1])
     const plus = useCallback((item:A, {f = false, ap = false, minus = false})=>{
         setData(c=>({...c,items:
                 c.items.map((itm,i)=>{
