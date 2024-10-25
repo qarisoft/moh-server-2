@@ -70,6 +70,8 @@ const Add = ()=>{
             if(!o ){
                 if(isDirty){
                     setOpen2(true)
+                }else {
+                    close1(o)
                 }
             }else {
                 close1(o)
