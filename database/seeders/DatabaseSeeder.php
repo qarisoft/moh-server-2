@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
             for ($i=0; $i < 2; $i++) {
                 $p->floors()->create();
                 $p->floors()->get()->map(function($f){
-                    for ($i=0; $i < 10; $i++) {
+                    for ($i=0; $i < 2; $i++) {
                         $f->apartments()->create();
                     }
                 });
@@ -37,6 +37,6 @@ class DatabaseSeeder extends Seeder
 
 
         Customer::factory(10)->create();
-        Project::factory(100)->create();
+        Project::factory(2)->create();
     }
 }
