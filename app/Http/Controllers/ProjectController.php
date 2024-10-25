@@ -7,7 +7,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Customer;
 use Inertia\Inertia;
-use Pest\ArchPresets\Custom;
+//use Pest\ArchPresets\Custom;
 
 class ProjectController extends Controller
 {
@@ -17,10 +17,10 @@ class ProjectController extends Controller
     public function index()
     {
         return Inertia::render('Projects/Index',[
-            'data'=>fn()=>Project::query()
+            'data'=>fn()=>Project::query()->orderBy('id','desc')
             ->withCount('floors')
             ->withCount('apartments')
-            ->paginate()
+            ->paginate(perPage: 20)
         ]);
     }
 
@@ -37,7 +37,22 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        //
+        $request->validated();
+        $project = Project::create([
+            'name'=>$request->name,
+            'description'=>$request->description
+        ]);
+//        dd($project);
+        foreach ($request->items as $item) {
+            for ($i = 0; $i < $item['floor']; $i++) {
+                $f=$project->floors()->create();
+                for ($i = 0; $i < $item['apartments']; $i++){
+                    $f->apartments()->create();
+                }
+
+            }
+        }
+//        dd($request->items);
     }
 
     /**
@@ -50,7 +65,7 @@ class ProjectController extends Controller
             'project'=>[
                 'id'=>$project->id,
                 'name'=>$project->name,
-                'floors'=>$project->floors,
+                'floors'=>$project->floors()->with('apartments')->get(),
                 'apartments'=>$project->apartments,
                 'created_at'=>$project->created_at,
                 'updated_at'=>$project->updated_at,

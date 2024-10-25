@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Apartment;
+use App\Models\Customer;
 use App\Models\Operation;
 use App\Models\Project;
 use Faker\Core\File;
@@ -16,11 +17,11 @@ class SellBookApartments extends Controller
 {
     function sell(Apartment $apartment,Request $request)
     {
-            
+
         $request->validate([
             'customer_id'=>'required|string|not_in:0',
             'apartment_id'=>'required|int',
-            
+
         ]);
         $apartment = Apartment::find($request->apartment_id);
 
@@ -29,15 +30,29 @@ class SellBookApartments extends Controller
 
     function book(Request $request)
     {
-        $request->validate([
-            'customer_id'=>'required|string|not_in:0',
-            'apartment_id'=>'required|int',
-            
-            
-        ]);
-        $apartment = Apartment::find($request->apartment_id);
+        if ($request->create_customer=='1'){
+            $request->validate([
+                'name'=>'required|string',
+                'phone'=>'required|string',
+                'address'=>'required|string',
+                'apartment_id'=>'required|int',
+            ]);
+            $customer = Customer::create([
+                'name'=>$request->name,
+                'address'=>$request->address,
+                'phone'=>$request->phone,
+            ]);
+            $apartment = Apartment::find($request->apartment_id);
+            $apartment->book($customer->id);
+        }else{
+            $request->validate([
+            'customer_id'=>'required|string',
+                'apartment_id'=>'required|int',
+            ]);
+            $apartment = Apartment::find($request->apartment_id);
+            $apartment->book($request->customer_id);
+        }
 
-        $apartment->book($request->customer_id);
     }
 
     function cancel(Apartment $apartment,Request $request)
@@ -54,7 +69,7 @@ class SellBookApartments extends Controller
     public function upload(Request $request,Project $project)
     {
         // if($request->file('photo')){
-        
+
         // }
             $request->validate([
                 'photo' => 'required',

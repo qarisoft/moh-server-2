@@ -2,44 +2,37 @@
 
 import { Theme } from "@radix-ui/themes";
 import { FC, PropsWithChildren, useState } from "react";
-import "@radix-ui/themes/styles.css";
 import { Toaster } from "@/Components/ui/toast";
 import icon from '@/assets/logo.jpeg'
 import { Home, Hotel, Menu } from "lucide-react";
+import {Link} from "@inertiajs/react";
+import "@radix-ui/themes/styles.css";
 // import { Toaster } from "@/Components/ui/toaster";
-export default function Layout({children, path, sub}:PropsWithChildren<{path:string,sub?:string}>) {
+export default function Layout({children}:PropsWithChildren<{path:string,sub?:string}>) {
   return (
         < >
             <Theme >
-            <div className="" dir={'rtl'}>
+            <div className="relative" dir={'rtl'} style={{fontFamily:'Tajawal'}}>
 
 
-                <div className=" flex justify-between items-center  fixed bg-slate-00 border-b w-full px-2 py-[2px]">
+                <div className=" flex justify-between items-center  fixed  border-b w-full px-2 py-[2px]">
                     <img src={icon} alt="" height={40} width={40} />
-                    <div className="shadow-md rounded-md p-[3px]">
+                    <div className="shadow-md rounded-md p-[3px] opacity-0 lg:opacity-0">
                         <Menu/>
                     </div>
                 </div>
-                <main className={'w-screen h-screen  flex relative  pt-[44px] lg:pt-0'} >
+
+                <main className={'w-screen h-screen  flex relative   lg:pt-0'} >
 
                     <SideBar/>
 
-                    <div className=" flex-1  overflow-auto px-2 pt-2 ">
-                        <div className={` w-full  `}>
+                    <div className=" flex-1  overflow-auto relative pt-[40px]">
+                            <MenuBar/>
+                        <div className={` w-full  bg-gray-00 `}>
 
 
-                            <div className="flex p-2 gap-2 mb-1 max-h-[40px] border-b w-fit items-center">
-                                <div className="font-bold  ">{path}</div>
-                                {sub&&(
-                                    <>
-                                        <div className="font-bold  ">/</div>
-                                        <div className="font-   ">{sub}</div>
-                                    </>
-                                )}
-                            </div>
-                            {/* <Toaster richColors style={{ maxWidth:'20rem' }} className="lg:hidden" /> */}
                             <Toaster richColors  position="top-left" className=" lg:block" />
-                            <div className="">
+                            <div className="bg-blue-">
 
                                 {children}
                             </div>
@@ -52,9 +45,19 @@ export default function Layout({children, path, sub}:PropsWithChildren<{path:str
         </>
   )
 }
-const MainContent = ({children}:PropsWithChildren)=> {
+
+
+
+
+
+const MenuBar = ()=> {
+    return <div className="fixed top-0 w-full flex  gap-2 h-[40px]  items-center ">
+
+    </div>
+}
+const MainContent = ({children}: PropsWithChildren) => {
     return <div className=" flex-1  overflow-auto p-2">
-    <div className={` w-full  `}>
+        <div className={` w-full  `}>
 
 
         <div className="flex p-2 gap-2 my-2">
@@ -72,17 +75,19 @@ const SideBar = () => {
     const [open, setOpen] = useState(true);
 
 
-    return <div className={`w-[3rem] md:w-[20rem] ${open?'bg- w-[20rem]':'w-[3rem]'} flex flex-col gap-2 text-white p-[px] md:p-2 text-center md:text-start b shadow `}>
+    return <div className={`w-[3rem] md:w-[20rem] ${open?'bg- w-[20rem]':'w-[3rem]'} flex flex-col gap-2 text-white pt-[10px] p-[2px] md:p-2 text-center md:text-start b shadow `}>
         <div className="text-sm py-4"></div>
-        <SideBarItem active/>
-        <SideBarItem/>
+        <SideBarItem path={'projects'}/>
+        <SideBarItem path={'customers'} />
     </div>
 }
 
 
-const SideBarItem:FC<{active?:boolean}> = ({active=false})=>{
+const SideBarItem:FC<{active?:boolean,path?:string}> = ({active,path='projects'})=>{
+    const p = route().current()??''
+    active = active?? p.startsWith(path??'')
     return (
-        <div className={`flex justify-center py-[6px] rounded hover:bg-slate-100 ${active?'bg-slate-100':''} lg:justify-start lg:ps-2`}>
+        <Link href={route(`${path}.index`)} className={`flex justify-center md:justify-start py-[6px] rounded hover:bg-slate-100 ${active?'bg-slate-100':''}  lg:ps-2`}>
 
             <div className={`${active?'bg-blue-600 hover:bg--100':'bg-white text-blue-600 '}  cursor-pointer  rounded-[12px]  shadow-lg drop-shadow-sm   p-[8px]  md:p-2  w-fit`}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4">
@@ -91,7 +96,7 @@ const SideBarItem:FC<{active?:boolean}> = ({active=false})=>{
                 </svg>
 
             </div>
-        </div>
+        </Link>
     )
 }
 

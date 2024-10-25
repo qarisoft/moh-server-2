@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SellBookApartments;
@@ -9,22 +10,24 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return redirect('/projects');
-    // return Inertia::render('Welcome', [
-    //     'canLogin' => Route::has('login'),
-    //     'canRegister' => Route::has('register'),
-    //     'laravelVersion' => Application::VERSION,
-    //     'phpVersion' => PHP_VERSION,
-    // ]);
+
 });
 
 
 
 Route::resource('projects',ProjectController::class);
+Route::resource('customers',CustomerController::class);
+
 Route::post('/projects/{id}/book',[SellBookApartments::class, 'book'])->name('projects.book');
 Route::post('/projects/{id}/sell',[SellBookApartments::class, 'sell'])->name('projects.sell');
 Route::post('/projects/{id}/cancel',[SellBookApartments::class, 'cancel'])->name('projects.cancel');
+
 Route::post('/projects/{project}/image/upload',[SellBookApartments::class, 'upload'])->name('projects.add.photo');
 Route::delete('/projects/{image}/delete',[SellBookApartments::class, 'delete'])->name('projects.delete.image');
+
+
+
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

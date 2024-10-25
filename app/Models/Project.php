@@ -13,9 +13,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Project extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
-    // protected $casts=[
-    //   'images'=>'array'
-    // ];
     protected $fillable = [
         'name',
         'description',
