@@ -84,7 +84,7 @@ export default {
             },
         },
     },
-    plugins: [require("tailwindcss-animate"),forms],
+    plugins: [require("tailwindcss-animate")],
 
     // plugins: [forms],
 };

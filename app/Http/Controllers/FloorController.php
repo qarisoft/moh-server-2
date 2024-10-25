@@ -29,7 +29,8 @@ class FloorController extends Controller
      */
     public function store(StoreFloorRequest $request)
     {
-        //
+        $request->validated();
+        Floor::find($request->floor_id)->apartments()->create([]);
     }
 
     /**

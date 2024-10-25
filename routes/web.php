@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\FloorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SellBookApartments;
@@ -17,6 +19,8 @@ Route::get('/', function () {
 
 Route::resource('projects',ProjectController::class);
 Route::resource('customers',CustomerController::class);
+Route::resource('apartments',ApartmentController::class);
+Route::resource('floors',FloorController::class);
 
 Route::post('/projects/{id}/book',[SellBookApartments::class, 'book'])->name('projects.book');
 Route::post('/projects/{id}/sell',[SellBookApartments::class, 'sell'])->name('projects.sell');

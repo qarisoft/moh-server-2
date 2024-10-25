@@ -6,12 +6,12 @@ import { Toaster } from "@/Components/ui/toast";
 import icon from '@/assets/logo.jpeg'
 import { Home, Hotel, Menu } from "lucide-react";
 import {Link} from "@inertiajs/react";
-import "@radix-ui/themes/styles.css";
+// import "@radix-ui/themes/styles.css";
 // import { Toaster } from "@/Components/ui/toaster";
 export default function Layout({children}:PropsWithChildren<{path:string,sub?:string}>) {
   return (
         < >
-            <Theme >
+            {/*<Theme >*/}
             <div className="relative" dir={'rtl'} style={{fontFamily:'Tajawal'}}>
 
 
@@ -41,7 +41,7 @@ export default function Layout({children}:PropsWithChildren<{path:string,sub?:st
                     </div>
                 </main>
             </div>
-        </Theme>
+        {/*</Theme>*/}
         </>
   )
 }
