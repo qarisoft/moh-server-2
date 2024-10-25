@@ -379,7 +379,7 @@ const FloorCard = ({children, fl}: PropsWithChildren<{ fl: F }>) => {
         open: false,
     })
     const m= 'تم اضافة شقة جديدة في الطابق '
-    const handelSubmit = useCallback((e)=>{
+    const handelSubmit = useCallback((e: { stopPropagation: () => void })=>{
         e.stopPropagation()
         post(route('floors.store'),{
             onSuccess:()=>{
