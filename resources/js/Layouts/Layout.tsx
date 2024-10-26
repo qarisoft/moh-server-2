@@ -1,37 +1,33 @@
 // import React from 'react'
 
-import { Theme } from "@radix-ui/themes";
-import { FC, PropsWithChildren, useState } from "react";
-import { Toaster } from "@/Components/ui/toast";
+import {FC, PropsWithChildren, useState} from "react";
+import {Toaster} from "@/Components/ui/toast";
 import icon from '@/assets/logo.jpeg'
-import { Home, Hotel, Menu } from "lucide-react";
+import {Menu} from "lucide-react";
 import {Link} from "@inertiajs/react";
 // import "@radix-ui/themes/styles.css";
 // import { Toaster } from "@/Components/ui/toaster";
-export default function Layout({children}:PropsWithChildren<{path:string,sub?:string}>) {
-  return (
+export default function Layout({children}: PropsWithChildren<{ path: string, sub?: string }>) {
+    return (
         < >
-            {/*<Theme >*/}
-            <div className="relative" dir={'rtl'} style={{fontFamily:'Tajawal'}}>
-
-
+            <div className="relative" dir={'rtl'} style={{fontFamily: 'Tajawal'}}>
                 <div className=" flex justify-between items-center  fixed  border-b w-full px-2 py-[2px]">
-                    <img src={icon} alt="" height={40} width={40} />
+                    <img src={icon} alt="" height={40} width={40}/>
                     <div className="shadow-md rounded-md p-[3px] opacity-0 lg:opacity-0">
                         <Menu/>
                     </div>
                 </div>
 
-                <main className={'w-screen h-screen  flex relative   lg:pt-0'} >
+                <main className={'w-screen h-screen  flex relative   lg:pt-0'}>
 
                     <SideBar/>
 
                     <div className=" flex-1  overflow-auto relative pt-[40px]">
-                            <MenuBar/>
+                        <MenuBar/>
                         <div className={` w-full  bg-gray-00 `}>
 
 
-                            <Toaster richColors  position="top-left" className=" lg:block" />
+                            <Toaster richColors position="top-left" className=" lg:block"/>
                             <div className="bg-blue-">
 
                                 {children}
@@ -41,33 +37,15 @@ export default function Layout({children}:PropsWithChildren<{path:string,sub?:st
                     </div>
                 </main>
             </div>
-        {/*</Theme>*/}
+            {/*</Theme>*/}
         </>
-  )
+    )
 }
 
 
-
-
-
-const MenuBar = ()=> {
+const MenuBar = () => {
     return <div className="fixed top-0 w-full flex  gap-2 h-[40px]  items-center ">
 
-    </div>
-}
-const MainContent = ({children}: PropsWithChildren) => {
-    return <div className=" flex-1  overflow-auto p-2">
-        <div className={` w-full  `}>
-
-
-        <div className="flex p-2 gap-2 my-2">
-            <div className="">projects</div>
-            {/* <div className="">/</div> */}
-            {/* <div className="">project - 1</div> */}
-        </div>
-        {children}
-
-    </div>
     </div>
 }
 
@@ -75,7 +53,8 @@ const SideBar = () => {
     const [open, setOpen] = useState(true);
 
 
-    return <div className={`w-[3rem] md:w-[20rem] ${open?'bg- w-[20rem]':'w-[3rem]'} flex flex-col gap-2 text-white pt-[10px] p-[2px] md:p-2 text-center md:text-start b shadow `}>
+    return <div
+        className={`w-[3rem] md:w-[20rem] ${open ? 'bg- w-[20rem]' : 'w-[3rem]'} flex flex-col gap-2 text-white pt-[10px] p-[2px] md:p-2 text-center md:text-start b shadow `}>
         <div className="text-sm py-4"></div>
         <SideBarItem path={'projects'}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4">
@@ -106,13 +85,18 @@ const SideBarItem: FC<{ active?: boolean, path?: string } & PropsWithChildren> =
     active = active ?? p.startsWith(path ?? '')
     return (
         <Link href={route(`${path}.index`)}
-              className={`flex justify-center md:justify-start py-[6px] rounded hover:bg-slate-100 ${active ? 'bg-slate-100' : ''}  lg:ps-2`}>
+              className={`
 
+              flex justify-center md:justify-start py-[6px] rounded hover:bg-slate-100 ${active ? 'bg-slate-100' : ''}  lg:ps-2
+              `}
+        >
             <div
                 className={`${active ? 'bg-blue-600 hover:bg--100' : 'bg-white text-blue-600 '}  cursor-pointer  rounded-[12px]  shadow-lg drop-shadow-sm   p-[8px]  md:p-2  w-fit`}>
                 {children}
 
             </div>
+
+            <span className="text-gray-600 mx-3  items-center hidden md:flex">dsadas</span>
         </Link>
     )
 }
