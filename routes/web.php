@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Route::resource('projects', ProjectController::class);
 Route::resource('customers', CustomerController::class);
-Route::delete('/customers/{customer}/delete', [CustomerController::class, 'delete'])->name('customers.delete');
+Route::delete('/customers/{customer}/delete', [CustomerController::class, 'destroy'])->name('customers.delete');
 Route::resource('apartments', ApartmentController::class);
 Route::resource('floors', FloorController::class);
 

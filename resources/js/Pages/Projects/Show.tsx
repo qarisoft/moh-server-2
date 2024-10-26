@@ -377,7 +377,6 @@ export default function Show({project, customers}: { project: P, customers: Cust
                                             className='  flex-1 text-center rounded  text-gray-100  py-1'
                                             onClick={() => {
                                                 setPending(true)
-
                                                 router.delete(route('projects.delete.image', imgDel), {
                                                     onSuccess: () => {
                                                         toast.success('image deleted successfully')
@@ -725,7 +724,6 @@ const ImageUploader: FC<{ pId: number, image?: string, inpRef: any, }> = ({
                                if (a?.length) {
                                    const photo = a[0]
                                    setData('photo', photo)
-                                   console.log(data.photo);
 
                                }
                            }}
