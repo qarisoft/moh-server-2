@@ -1,7 +1,7 @@
-import React, {FC, useCallback} from 'react';
+import React, {FC, useState} from 'react';
 import PageLayout from "@/Pages/Projects/layout";
 import {PageProps} from "@/types";
-import {Link, useForm} from "@inertiajs/react";
+import {Link, router} from "@inertiajs/react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -50,35 +50,32 @@ const Index = ({data}: PageProps<{ data: any }>) => {
     );
 };
 const Data: FC<{ customers: Customer[] }> = ({customers}) => {
-    const {data, processing, setData, reset, post} = useForm('delete_customer', {customer_id: 0})
-    const onDestroy = useCallback(() => {
-        post(route('customers.destroy', data.customer_id), {
-            onSuccess: () => {
-                toast.success('تم الحذف بنجاح')
-            },
-            onError: (e) => {
-                toast.error(Object.values(e))
-            },
-            onFinish: () => reset('customer_id')
-        })
-    }, [data.customer_id, reset])
+    const [open, setOpen] = useState(false);
+    const [delId, setId] = useState(0)
+    const onDestroy = (id: number) => {
+        setOpen(true)
+        setId(id)
+    }
     return <div className="flex-1  h-[calc(100vh-190px)] overflow-y-auto ">
         {customers.map((p) => {
-            return <Row key={p.id} customer={p} onDelete={(id) => setData('customer_id', id)}/>
+            return <Row key={p.id} customer={p} onDelete={(id) => onDestroy(id)}/>
         })}
 
 
-        <Dialog open={data.customer_id != 0}
-                onOpenChange={(e) => {
-
-                }}
+        <Dialog open={open}
+                onOpenChange={(e) => setOpen(e)}
         >
             <DialogContent className={'max-w-[15rem]  rounded-xl'} dir={'rtl'}>
                 <DialogTitle className={'text-center'}>{'حذف العميل !!'}</DialogTitle>
                 <DialogDescription></DialogDescription>
                 <DialogFooter className={''}>
-                    <Button className={'w-full'} variant={'destructive'} loading={processing}
-                            onClick={onDestroy}>{'حذف'}</Button>
+                    <Button className={'w-full'} variant={'destructive'}
+                            onClick={() => router.delete(route('customers.destroy', delId), {
+                                onFinish: () => setOpen(false),
+                                onSuccess: () => toast.success('تم الحذف')
+                            })}
+
+                    >{'حذف'}</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
