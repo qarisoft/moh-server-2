@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\Customer;
 use Inertia\Inertia;
 
 class CustomerController extends Controller
@@ -15,7 +15,7 @@ class CustomerController extends Controller
     public function index()
     {
         return Inertia::render('Customers/Index', [
-            'data' =>  Customer::query()->withCount('operations')->get()
+            'data' => Customer::query()->withCount('operations')->get()
 
         ]);
     }
@@ -65,6 +65,6 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
     }
 }
