@@ -94,7 +94,7 @@ const Add = () => {
     const plus = (item: A, {f = false, minus = false}) => {
         setData(c => ({
             ...c, items:
-                c.items.map((itm, i) => {
+                c.items.map((itm) => {
                     if (itm.id === item.id) {
                         if (f) {
                             if (minus) {
@@ -302,7 +302,10 @@ const Data: FC<{ projects: P[] }> = ({projects}) => {
 
         <Dialog open={data.project_id != 0}
                 onOpenChange={(e) => {
-
+                    if (!e) {
+                        reset('project_id')
+                        console.log(e)
+                    }
                 }}
         >
             <DialogContent className={'max-w-[15rem]  rounded-xl'} dir={'rtl'}>
