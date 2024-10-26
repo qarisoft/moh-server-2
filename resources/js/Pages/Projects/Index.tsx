@@ -282,7 +282,7 @@ function Index({data}: { data: Paginate<P> }) {
 
 
 const Data: FC<{ projects: P[] }> = ({projects}) => {
-    const {data, processing, setData, reset, delete: post} = useForm('delete_project', {project_id: 0})
+    const {data, processing, setData, reset, post} = useForm('delete_project', {project_id: 0})
     const onDestroy = useCallback(() => {
         post(route('projects.destroy', data.project_id), {
             method: 'delete',

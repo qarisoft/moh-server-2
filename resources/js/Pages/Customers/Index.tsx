@@ -50,9 +50,9 @@ const Index = ({data}: PageProps<{ data: any }>) => {
     );
 };
 const Data: FC<{ customers: Customer[] }> = ({customers}) => {
-    const {data, processing, setData, reset, delete: destroy} = useForm('delete_customer', {customer_id: 0})
+    const {data, processing, setData, reset, post} = useForm('delete_customer', {customer_id: 0})
     const onDestroy = useCallback(() => {
-        destroy(route('customers.destroy', data.customer_id), {
+        post(route('customers.destroy', data.customer_id), {
             onSuccess: () => {
                 toast.success('تم الحذف بنجاح')
             },
