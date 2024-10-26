@@ -287,12 +287,11 @@ const Data: FC<{ projects: P[] }> = ({projects}) => {
         destroy(route('projects.destroy', data.project_id), {
             onSuccess: () => {
                 toast.success('تم الحذف بنجاح')
-                reset('project_id')
             },
             onError: (e) => {
                 toast.error(Object.values(e))
-
             },
+            onFinish: () => reset('project_id')
         })
     }, [data.project_id, reset])
     return <div className="flex-1  h-[calc(100vh-190px)] overflow-y-auto ">
