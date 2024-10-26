@@ -70,7 +70,7 @@ const Data: FC<{ customers: Customer[] }> = ({customers}) => {
                 <DialogDescription></DialogDescription>
                 <DialogFooter className={''}>
                     <Button className={'w-full'} variant={'destructive'}
-                            onClick={() => router.delete(route('customers.destroy', delId), {
+                            onClick={() => router.post(route('customers.delete', delId), {}, {
                                 onFinish: () => setOpen(false),
                                 onSuccess: () => toast.success('تم الحذف')
                             })}

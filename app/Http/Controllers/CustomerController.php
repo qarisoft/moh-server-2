@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class CustomerController extends Controller
@@ -66,6 +67,6 @@ class CustomerController extends Controller
     public function destroy(Customer $customer)
     {
         $customer->delete();
-        return redirect()->route('customers.index');
+        return Redirect::back()->with('success', 'Contact created.');
     }
 }
