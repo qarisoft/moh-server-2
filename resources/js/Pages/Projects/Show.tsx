@@ -81,17 +81,7 @@ type  A = {
 }
 
 
-// const Btn = ({children, className, a, b, onClick, disabled}: PropsWithChildren<{
-//     className: string,
-//     a: string,
-//     b: string,
-//     onClick: React.MouseEventHandler<HTMLButtonElement> | undefined,
-//     disabled?: boolean | undefined
-// }>) => {
-//     const [aa, stA] = useState(false)
-//     return <button onClick={onClick} onMouseDown={() => stA(true)} onMouseUp={() => stA(false)} disabled={disabled}
-//                    className={`${aa ? `${b} shadow drop-shadow` : `${a} `}   ${className}`}>{children}</button>
-// }
+
 const Add: FC<{ id: number }> = ({id}) => {
     const {data, processing, setData, reset, post, errors, isDirty} = useForm<{ items: A[] }>({
         items: [],
