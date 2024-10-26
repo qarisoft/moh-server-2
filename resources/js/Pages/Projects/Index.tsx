@@ -61,7 +61,6 @@ const Add = () => {
         description: '',
     })
     const onSubmit = () => {
-        console.log(data)
         post(route('projects.store'), {
             onSuccess: () => {
                 toast.success('تم انشاء المشروع بنجاح')

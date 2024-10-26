@@ -25,7 +25,6 @@ type Customer = {
     updated_at: string
 }
 const Index = ({data}: PageProps<{ data: any }>) => {
-    console.log(data)
 
     return (
         <PageLayout title={'العملاء'}
@@ -56,12 +55,11 @@ const Data: FC<{ customers: Customer[] }> = ({customers}) => {
         destroy(route('customers.destroy', data.customer_id), {
             onSuccess: () => {
                 toast.success('تم الحذف بنجاح')
-                reset('customer_id')
             },
             onError: (e) => {
                 toast.error(Object.values(e))
-
             },
+            onFinish: () => reset('customer_id')
         })
     }, [data.customer_id, reset])
     return <div className="flex-1  h-[calc(100vh-190px)] overflow-y-auto ">

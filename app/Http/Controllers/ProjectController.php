@@ -111,6 +111,7 @@ class ProjectController extends Controller
     {
         $project->clearMediaCollection();
         $project->delete();
+        return redirect()->back();
 //        $project->apartments->each(function($apartment){
 //
 //        });
