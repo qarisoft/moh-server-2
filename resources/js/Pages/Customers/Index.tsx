@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useCallback} from 'react';
 import PageLayout from "@/Pages/Projects/layout";
 import {PageProps} from "@/types";
 import {Link, useForm} from "@inertiajs/react";
@@ -10,7 +10,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/Components/ui/drop-down";
-import Spinner from "@/Components/ui/spinner";
 import {Trash2} from "lucide-react";
 import {Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle} from "@/Components/ui/dialog";
 import {Button} from "@/Components/ui/button";
@@ -52,33 +51,47 @@ const Index = ({data}: PageProps<{ data: any }>) => {
     );
 };
 const Data: FC<{ customers: Customer[] }> = ({customers}) => {
+    const {data, processing, setData, reset, delete: destroy} = useForm('delete_customer', {customer_id: 0})
+    const onDestroy = useCallback(() => {
+        destroy(route('customers.destroy', data.customer_id), {
+            onSuccess: () => {
+                toast.success('تم الحذف بنجاح')
+                reset('customer_id')
+            },
+            onError: (e) => {
+                toast.error(Object.values(e))
+
+            },
+        })
+    }, [data.customer_id, reset])
     return <div className="flex-1  h-[calc(100vh-190px)] overflow-y-auto ">
         {customers.map((p) => {
-            return <Row key={p.id} customer={p}/>
+            return <Row key={p.id} customer={p} onDelete={(id) => setData('customer_id', id)}/>
         })}
+
+
+        <Dialog open={data.customer_id != 0}
+                onOpenChange={(e) => {
+
+                }}
+        >
+            <DialogContent className={'max-w-[15rem]  rounded-xl'} dir={'rtl'}>
+                <DialogTitle className={'text-center'}>{'حذف العميل !!'}</DialogTitle>
+                <DialogDescription></DialogDescription>
+                <DialogFooter className={''}>
+                    <Button className={'w-full'} variant={'destructive'} loading={processing}
+                            onClick={onDestroy}>{'حذف'}</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
 
 
     </div>
 }
 
 
-const Row: FC<{ customer: Customer }> = ({customer}) => {
-    // const handelClick = () => {
-    //     router.get(route('customers.show', customer.id))
-    // }
-    const {data, processing, setData, reset, delete: destroy} = useForm('delete_customer', {open: false})
-    // const closeDialog = () => setData('open', false)
-    const onDestroy = () => {
-        destroy(route('customers.destroy', customer.id), {
-            onSuccess: () => {
-                toast.success('تم الحذف بنجاح')
-            },
-            onError: (e) => {
-                toast.error(Object.values(e))
-            },
-            onFinish: () => reset('open')
-        })
-    }
+const Row: FC<{ customer: Customer, onDelete: (id: number) => void }> = ({customer, onDelete}) => {
+
 
     return <div className="  flex justify-between my-2 mx-2 border-b  ">
         <div className="flex-1  flex justify-between items-center">
@@ -95,33 +108,17 @@ const Row: FC<{ customer: Customer }> = ({customer}) => {
             <DropdownMenuContent>
                 <DropdownMenuLabel>{customer.name}</DropdownMenuLabel>
                 <DropdownMenuSeparator/>
-                <DropdownMenuItem className={'flex justify-between'} onClick={() => setData('open', true)}>
+                <DropdownMenuItem className={'flex justify-between'} onClick={() => onDelete(customer.id)}>
 
                     <div className="flex gap-2">
                         <span className="">{'حذف'}</span>
-                        <Spinner loading={processing}/>
                     </div>
 
                     <Trash2 className={'text-red-600'}/>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
-        <Dialog open={data.open}
-                onOpenChange={(e) => {
-                    if (!e) {
-                        setData('open', false)
-                    }
-                }}
-        >
-            <DialogContent className={'max-w-[15rem]  rounded-xl'} dir={'rtl'}>
-                <DialogTitle className={'text-center'}>{'حذف العميل !!'}</DialogTitle>
-                <DialogDescription></DialogDescription>
-                <DialogFooter className={''}>
-                    <Button className={'w-full'} variant={'destructive'} loading={processing}
-                            onClick={onDestroy}>{'حذف'}</Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+
     </div>
 }
 

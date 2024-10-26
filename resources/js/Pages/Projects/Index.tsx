@@ -25,7 +25,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/Components/ui/drop-down";
-import Spinner from "@/Components/ui/spinner";
 
 export type Project = {
     id: number
@@ -284,33 +283,47 @@ function Index({data}: { data: Paginate<P> }) {
 
 
 const Data: FC<{ projects: P[] }> = ({projects}) => {
+    const {data, processing, setData, reset, delete: destroy} = useForm('delete_project', {project_id: 0})
+    const onDestroy = useCallback(() => {
+        destroy(route('projects.destroy', data.project_id), {
+            onSuccess: () => {
+                toast.success('تم الحذف بنجاح')
+                reset('project_id')
+            },
+            onError: (e) => {
+                toast.error(Object.values(e))
+
+            },
+        })
+    }, [data.project_id, reset])
     return <div className="flex-1  h-[calc(100vh-190px)] overflow-y-auto ">
         {projects.map((p) => {
-            return <Row key={p.id} project={p}/>
+            return <Row key={p.id} project={p} onDelete={(id: number) => setData('project_id', id)}/>
         })}
+
+
+        <Dialog open={data.project_id != 0}
+                onOpenChange={(e) => {
+
+                }}
+        >
+            <DialogContent className={'max-w-[15rem]  rounded-xl'} dir={'rtl'}>
+                <DialogTitle className={'text-center'}>{'حذف المشروع !!'}</DialogTitle>
+                <DialogDescription></DialogDescription>
+                <DialogFooter className={''}>
+                    <Button className={'w-full'} variant={'destructive'} loading={processing}
+                            onClick={onDestroy}>{'حذف'}</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
 
 
     </div>
 }
 
 
-const Row: FC<{ project: P }> = ({project}) => {
-    const {data, processing, setData, reset, delete: destroy} = useForm('delete_project', {open: false})
-    const closeDialog = () => setData('open', false)
-    const onDestroy = () => {
-        destroy(route('projects.destroy', project.id), {
-            onSuccess: () => {
-                toast.success('تم الحذف بنجاح')
-            },
-            onError: (e) => {
-                toast.error(Object.values(e))
+const Row: FC<{ project: P, onDelete: (id: number) => void }> = ({project, onDelete}) => {
 
-            },
-            onFinish: () => {
-                reset('open')
-            }
-        })
-    }
     return <div className="  flex justify-between my-2 mx-2 border-b  ">
         <div className="flex-1  flex justify-between items-center">
             <Link className="flex-1" href={route('projects.show', project.id)}>{project.name}</Link>
@@ -328,31 +341,17 @@ const Row: FC<{ project: P }> = ({project}) => {
             <DropdownMenuContent>
                 <DropdownMenuLabel>{project.name}</DropdownMenuLabel>
                 <DropdownMenuSeparator/>
-                <DropdownMenuItem className={'flex justify-between'} onClick={() => setData('open', true)}>
+                <DropdownMenuItem className={'flex justify-between'} onClick={() => onDelete(project.id)}>
 
                     <div className="flex gap-2">
                         <span className="">{'حذف'}</span>
-                        <Spinner loading={processing}/>
                     </div>
 
                     <Trash2 className={'text-red-600'}/>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
-        <Dialog open={data.open}
-                onOpenChange={(e) => {
-                    setData('open', e)
-                }}
-        >
-            <DialogContent className={'max-w-[15rem]  rounded-xl'} dir={'rtl'}>
-                <DialogTitle className={'text-center'}>{'حذف المشروع !!'}</DialogTitle>
-                <DialogDescription></DialogDescription>
-                <DialogFooter className={''}>
-                    <Button className={'w-full'} variant={'destructive'} loading={processing}
-                            onClick={onDestroy}>{'حذف'}</Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+
     </div>
 }
 
