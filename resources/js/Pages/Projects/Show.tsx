@@ -1,28 +1,16 @@
-import React, {
-    FC,
-    PropsWithChildren, useCallback,
-    useEffect,
-    useRef,
-    useState
-} from 'react'
+import React, {FC, PropsWithChildren, useCallback, useEffect, useRef, useState} from 'react'
 import {Project} from './Index'
 import {router, useForm} from '@inertiajs/react'
 import {toast} from 'sonner'
-import {
- ChevronDown, ChevronLeft,
-    Delete,
-    DeleteIcon, Minus,
-    Plus, Trash2,
-    TrashIcon,
-    Upload
-} from 'lucide-react'
+import {ChevronDown, ChevronLeft, Delete, DeleteIcon, Minus, Plus, Trash2, TrashIcon, Upload} from 'lucide-react'
 import PageLayout from "@/Pages/Projects/layout";
 import {Input} from "@/Components/ui/Input";
 import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogFooter, DialogHeader,
+    DialogFooter,
+    DialogHeader,
     DialogTitle,
     DialogTrigger
 } from "@/Components/ui/dialog";
@@ -79,7 +67,6 @@ type  A = {
     floor: number
     apartments: number
 }
-
 
 
 const Add: FC<{ id: number }> = ({id}) => {
@@ -785,7 +772,9 @@ const ApartmentCard: FC<{ ap: Ap, onClick: (t: string) => void, open: number }> 
             >
                 <div
                     {...longPress}
-                    className="text-gray-100   w-full ">{ap.number}</div>
+                    className="text-gray-100   w-full flex items-center justify-center ">
+                    <span>{ap.number}</span>
+                </div>
             </div>
             <Dialog open={data.open}
                     onOpenChange={(e) => {
