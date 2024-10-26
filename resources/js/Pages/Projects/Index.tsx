@@ -295,8 +295,8 @@ const Data: FC<{ projects: P[] }> = ({projects}) => {
 
 
 const Row: FC<{ project: P }> = ({project}) => {
-    const {data, processing, setData, delete: destroy} = useForm('delete_project', {open: false})
-
+    const {data, processing, setData, reset, delete: destroy} = useForm('delete_project', {open: false})
+    const closeDialog = () => setData('open', false)
     const onDestroy = () => {
         destroy(route('projects.destroy', project.id), {
             onSuccess: () => {
@@ -304,6 +304,10 @@ const Row: FC<{ project: P }> = ({project}) => {
             },
             onError: (e) => {
                 toast.error(Object.values(e))
+
+            },
+            onFinish: () => {
+                reset('open')
             }
         })
     }
@@ -337,9 +341,7 @@ const Row: FC<{ project: P }> = ({project}) => {
         </DropdownMenu>
         <Dialog open={data.open}
                 onOpenChange={(e) => {
-                    if (!e) {
-                        setData('open', false)
-                    }
+                    setData('open', e)
                 }}
         >
             <DialogContent className={'max-w-[15rem]  rounded-xl'} dir={'rtl'}>
