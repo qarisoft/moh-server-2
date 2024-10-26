@@ -783,7 +783,7 @@ const ApartmentCard: FC<{ ap: Ap, onClick: (t: string) => void, open: number }> 
                         }
                     }}
             >
-                <DialogContent className={'max-w-[10rem] rounded-xl'} dir={'rtl'}>
+                <DialogContent className={'max-w-[15rem] rounded-xl'} dir={'rtl'}>
                     <DialogTitle>{'حذف الشقة !!'}</DialogTitle>
                     <DialogDescription></DialogDescription>
                     <DialogFooter>

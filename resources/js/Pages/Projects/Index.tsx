@@ -17,6 +17,15 @@ import {
 import {Textarea} from "@/Components/ui/text-area";
 import {Button} from "@/Components/ui/button";
 import {toast} from "sonner";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from "@/Components/ui/drop-down";
+import Spinner from "@/Components/ui/spinner";
 
 export type Project = {
     id: number
@@ -286,6 +295,18 @@ const Data: FC<{ projects: P[] }> = ({projects}) => {
 
 
 const Row: FC<{ project: P }> = ({project}) => {
+    const {data, processing, setData, delete: destroy} = useForm('delete_project', {open: false})
+
+    const onDestroy = () => {
+        destroy(route('projects.destroy', project.id), {
+            onSuccess: () => {
+                toast.success('تم الحذف بنجاح')
+            },
+            onError: (e) => {
+                toast.error(Object.values(e))
+            }
+        })
+    }
     return <div className="  flex justify-between my-2 mx-2 border-b  ">
         <div className="flex-1  flex justify-between items-center">
             <Link className="flex-1" href={route('projects.show', project.id)}>{project.name}</Link>
@@ -295,7 +316,41 @@ const Row: FC<{ project: P }> = ({project}) => {
                 <div className="flex-1 text-center">{project.apartments_count}</div>
             </div>
         </div>
-        <div className="p-2  text-end">...</div>
+
+        <DropdownMenu dir={'rtl'}>
+            <DropdownMenuTrigger>
+                <div className="p-2  text-end">...</div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+                <DropdownMenuLabel>{project.name}</DropdownMenuLabel>
+                <DropdownMenuSeparator/>
+                <DropdownMenuItem className={'flex justify-between'} onClick={() => setData('open', true)}>
+
+                    <div className="flex gap-2">
+                        <span className="">{'حذف'}</span>
+                        <Spinner loading={processing}/>
+                    </div>
+
+                    <Trash2 className={'text-red-600'}/>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+        <Dialog open={data.open}
+                onOpenChange={(e) => {
+                    if (!e) {
+                        setData('open', false)
+                    }
+                }}
+        >
+            <DialogContent className={'max-w-[15rem]  rounded-xl'} dir={'rtl'}>
+                <DialogTitle className={'text-center'}>{'حذف المشروع !!'}</DialogTitle>
+                <DialogDescription></DialogDescription>
+                <DialogFooter className={''}>
+                    <Button className={'w-full'} variant={'destructive'} loading={processing}
+                            onClick={onDestroy}>{'حذف'}</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     </div>
 }
 

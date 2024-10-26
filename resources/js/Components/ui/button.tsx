@@ -1,8 +1,8 @@
 import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
+import {Slot} from "@radix-ui/react-slot"
+import {cva, type VariantProps} from "class-variance-authority"
 
-import { cn } from "@/lib/utils"
+import {cn} from "@/lib/utils"
 import Spinner from "@/Components/ui/spinner";
 
 const buttonVariants = cva(
@@ -43,7 +43,7 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant, size, asChild = false,children,loading, ...props }, ref) => {
+    ({className, variant, size, asChild = false, children, loading, ...props}, ref) => {
         const Comp = asChild ? Slot : "button"
         return (
             <Comp
@@ -51,12 +51,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 ref={ref}
                 {...props}
             >
-                <div className="relative">
+                <div className="relative ">
 
-                {children}
+                    {children}
                     <div className="absolute left-0 top-0 -translate-x-[150%]">
 
-                    <Spinner loading={loading}/>
+                        <Spinner loading={loading}/>
                     </div>
                 </div>
             </Comp>

@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -21,20 +23,20 @@ class DatabaseSeeder extends Seeder
             'email' => 't@t.t',
         ]);
 
-//
-//        Project::factory(1)-> create()->map(function($p){
-//            for ($i=0; $i < 2; $i++) {
-//                $p->floors()->create();
-//                $p->floors()->get()->map(function($f){
-//                    for ($i=0; $i < 2; $i++) {
-//                        $f->apartments()->create();
-//                    }
-//                });
-//            }
-//        });
-//
-//
-//        Customer::factory(10)->create();
-//        Project::factory(2)->create();
+
+        Project::factory(1)->create()->map(function ($p) {
+            for ($i = 0; $i < 2; $i++) {
+                $p->floors()->create();
+                $p->floors()->get()->map(function ($f) {
+                    for ($i = 0; $i < 2; $i++) {
+                        $f->apartments()->create();
+                    }
+                });
+            }
+        });
+
+
+        Customer::factory(10)->create();
+        Project::factory(2)->create();
     }
 }
