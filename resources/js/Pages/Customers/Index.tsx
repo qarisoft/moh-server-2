@@ -52,6 +52,7 @@ const Index = ({data}: PageProps<{ data: any }>) => {
 const Data: FC<{ customers: Customer[] }> = ({customers}) => {
     const [open, setOpen] = useState(false);
     const [delId, setId] = useState(0)
+    const [processing, setProcessing] = useState(false)
     const onDestroy = (id: number) => {
         setOpen(true)
         setId(id)
@@ -69,11 +70,20 @@ const Data: FC<{ customers: Customer[] }> = ({customers}) => {
                 <DialogTitle className={'text-center'}>{'حذف العميل !!'}</DialogTitle>
                 <DialogDescription></DialogDescription>
                 <DialogFooter className={''}>
-                    <Button className={'w-full'} variant={'destructive'}
-                            onClick={() => router.delete(route('customers.delete', delId), {
+                    <Button
+                        loading={processing}
+                        className={'w-full'} variant={'destructive'}
+                        onClick={() => {
+                            setProcessing(true)
+                            router.delete(route('customers.delete', delId), {
                                 onFinish: () => setOpen(false),
-                                onSuccess: () => toast.success('تم الحذف')
-                            })}
+                                onSuccess: () => {
+                                    toast.success('تم الحذف')
+                                    setProcessing(false)
+                                },
+                            })
+                        }
+                        }
 
                     >{'حذف'}</Button>
                 </DialogFooter>

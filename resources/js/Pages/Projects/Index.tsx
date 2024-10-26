@@ -1,4 +1,4 @@
-import {Link, useForm} from '@inertiajs/react'
+import {Link, router, useForm} from '@inertiajs/react'
 import React, {FC, useCallback, useState} from 'react'
 import PageLayout from "@/Pages/Projects/layout";
 import {Minus, Plus, Trash2} from "lucide-react";
@@ -282,39 +282,39 @@ function Index({data}: { data: Paginate<P> }) {
 
 
 const Data: FC<{ projects: P[] }> = ({projects}) => {
-    const {data, processing, setData, reset, post} = useForm('delete_project', {project_id: 0})
-    const onDestroy = useCallback(() => {
-        post(route('projects.destroy', data.project_id), {
-            method: 'delete',
-            onSuccess: () => {
-                toast.success('تم الحذف بنجاح')
-            },
-            onError: (e) => {
-                toast.error(Object.values(e))
-            },
-            onFinish: () => reset('project_id')
-        })
-    }, [data.project_id, reset])
+    const [open, setOpen] = useState(false);
+    const [delId, setId] = useState(0)
+    const [processing, setProcessing] = useState(false)
+    const onDestroy = (id: number) => {
+        setOpen(true)
+        setId(id)
+    }
     return <div className="flex-1  h-[calc(100vh-190px)] overflow-y-auto ">
         {projects.map((p) => {
-            return <Row key={p.id} project={p} onDelete={(id: number) => setData('project_id', id)}/>
+            return <Row key={p.id} project={p} onDelete={(id: number) => onDestroy(id)}/>
         })}
 
 
-        <Dialog open={data.project_id != 0}
-                onOpenChange={(e) => {
-                    if (!e) {
-                        reset('project_id')
-                        console.log(e)
-                    }
-                }}
+        <Dialog open={open}
+                onOpenChange={(e) => setOpen(e)}
         >
             <DialogContent className={'max-w-[15rem]  rounded-xl'} dir={'rtl'}>
                 <DialogTitle className={'text-center'}>{'حذف المشروع !!'}</DialogTitle>
                 <DialogDescription></DialogDescription>
                 <DialogFooter className={''}>
                     <Button className={'w-full'} variant={'destructive'} loading={processing}
-                            onClick={onDestroy}>{'حذف'}</Button>
+                            onClick={() => {
+                                setProcessing(true)
+                                router.delete(route('projects.delete', delId), {
+                                        onFinish: () => setOpen(false),
+                                        onSuccess: () => {
+                                            toast.success('تم الحذف')
+                                            setProcessing(false)
+                                        },
+                                    }
+                                )
+                            }}
+                    >{'حذف'}</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
