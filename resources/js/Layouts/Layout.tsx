@@ -11,6 +11,7 @@ export default function Layout({children}: PropsWithChildren<{ path: string, sub
     return (
         < >
             <div className="relative" dir={'rtl'} style={{fontFamily: 'Tajawal'}}>
+                <Toaster richColors/>
                 <div className=" flex justify-between items-center  fixed  border-b w-full px-2 py-[2px]">
                     <img src={icon} alt="" height={40} width={40}/>
                     <div className="shadow-md rounded-md p-[3px] opacity-0 lg:opacity-0">
@@ -27,7 +28,6 @@ export default function Layout({children}: PropsWithChildren<{ path: string, sub
                         <div className={` w-full  bg-gray-00 `}>
 
 
-                            <Toaster richColors position="top-left" className=" lg:block"/>
                             <div className="bg-blue-">
 
                                 {children}

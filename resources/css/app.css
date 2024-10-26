@@ -3,6 +3,7 @@
     /*font-weight: 300;*/
     src: url('./tajawal/Tajawal-Light.ttf') ;
 }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -62,6 +63,10 @@
         --chart-4: 280 65% 60%;
         --chart-5: 340 75% 55%;
     }
+
+    .ar {
+        direction: rtl;
+    }
 }
 
 /* width */
@@ -85,37 +90,38 @@
     /*margin: 10px;*/
 }
 
-.h{
+.h {
     display: none;
 }
-.h.fadein{
+
+.h.fadein {
     display: block;
-    animation-name: fadeIn ;
+    animation-name: fadeIn;
     animation-duration: 200ms;
     animation-timing-function: ease-out;
 }
 
-.h.fadeout{
+.h.fadeout {
 
     animation: fadeOut 300ms;
 
 }
 
 @keyframes fadeIn {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 0;
-	}
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0;
+    }
 }
 
 @keyframes fadeOut {
-	from {
-		opacity: 1;
-	}
-	to {
-		opacity: 0;
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
         display: none;
-	}
+    }
 }

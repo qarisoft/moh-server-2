@@ -76,7 +76,7 @@ const Add: FC<{ id: number }> = ({id}) => {
     const onSubmit = () => {
         post(route('projects.add.floor-ap', id), {
             onSuccess: () => {
-                toast.success('تم انشاء المشروع بنجاح')
+                toast.success('تم الاضافة بنجاح  ')
                 close1(false)
             },
         })
