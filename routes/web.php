@@ -42,4 +42,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+Route::get('/test', function () {
+    return \App\Models\Project::all()->map(function ($project) {
+        return [
+            'id' => $project->id,
+            'media' => $project->getMedia()
+        ];
+    });
+});
+
 require __DIR__ . '/auth.php';

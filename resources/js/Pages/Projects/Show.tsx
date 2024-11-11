@@ -256,6 +256,8 @@ const Add: FC<{ id: number }> = ({id}) => {
 
 
 export default function Show({project, customers}: { project: P, customers: Customer[] }) {
+
+
     console.log(project)
     const [active, setActive] = useState('0')
     const {data, setData, post, processing, errors, reset, clearErrors} = useForm('sell-book', {
@@ -657,10 +659,8 @@ const ImageUploader: FC<{ pId: number, image?: string, inpRef: any, }> = ({
         uploaded: false
     })
     const upload = () => {
+        // @ts-ignore
         post(route('projects.add.photo', pId), {
-
-            method: 'put',
-            only: [''],
             onSuccess: () => {
                 setData('uploaded', true)
                 reset('photo')

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -13,6 +12,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Project extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
+
     protected $fillable = [
         'name',
         'description',
@@ -20,12 +20,14 @@ class Project extends Model implements HasMedia
         'images'
     ];
 
-    public function floors(){
+    public function floors()
+    {
         return $this->hasMany(Floor::class);
     }
 
-    public function apartments(){
-        return $this->hasManyThrough(Apartment::class,Floor::class);
+    public function apartments()
+    {
+        return $this->hasManyThrough(Apartment::class, Floor::class);
     }
 
 
@@ -37,9 +39,9 @@ class Project extends Model implements HasMedia
             ->nonQueued();
     }
 
-    // public function a()
-    // {
-    //     // $this->addMedia()
-    // }
+//     public function a()
+//     {
+//         // $this->addMedia()
+//     }
 
 }
