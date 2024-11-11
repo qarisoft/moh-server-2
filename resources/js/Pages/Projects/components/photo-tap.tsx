@@ -4,7 +4,7 @@ import {DeleteIcon, Plus, TrashIcon} from "lucide-react";
 import {ImageUploader} from "@/Pages/Projects/components/image-uploader";
 import {Customer, Media} from "@/types";
 import Spinner from "@/Components/ui/spinner";
-import {router, useForm} from "@inertiajs/react";
+import {router} from "@inertiajs/react";
 import {toast} from "sonner";
 
 interface Props{cl:string,projectId:number,customers:Customer[],media:Media[]}
@@ -17,9 +17,9 @@ const PhotoTap:FC<Props> = ({cl,projectId,media}) => {
 
 
 
-    const {data,setData,post}=useForm({
-        url:''
-    })
+    // const {data,setData,post}=useForm({
+    //     url:''
+    // })
     return (
         <>
             <div className="flex ">
@@ -55,7 +55,10 @@ const PhotoTap:FC<Props> = ({cl,projectId,media}) => {
                                 a={"bg-red-400"}
                                 b={"bg-red-500"}
                                 disabled={pending}
-                                onClick={() => handelDelete(img.id)}
+                                onClick={() => {
+                                    handelDelete(img.id)
+                                    // console.log(img)
+                                }}
                                 className=" opacity-55 hover:opacity-100 absolute bg-red-400 top-0 right-0 text-gray-200 py-1 px-2  z-10 rounded"
                             >
                                 <DeleteIcon/>

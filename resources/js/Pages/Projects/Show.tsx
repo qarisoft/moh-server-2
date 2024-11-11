@@ -54,15 +54,7 @@ export default function Show({
                     </TabsList>
 
                     <TabsContent value="1">
-                        {/*<Inertia.Deferred data={'media'} fallback={<>*/}
-                        {/*loading*/}
-                        {/*</>}>*/}
-                            {/*<Test media={media} />*/}
-                                            {/*<div className="">*/}
-                                            {/*    */}
-                                            {/*</div>*/}
                             <PhotoTap cl={cl} projectId={project.id} customers={customers} media={media}/>
-                        {/*</Inertia.Deferred>*/}
                     </TabsContent>
                     <TabsContent value="0" className={""}>
                         <ApartmentsTap

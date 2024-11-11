@@ -67,24 +67,16 @@ class ProjectController extends Controller
             'project' => [
                 'id' => $project->id,
                 'name' => $project->name,
-                'floors' => Inertia::defer(fn()=>$project->floors()->with('apartments')->get()),
+                'floors' =>
+                $project->floors()->with('apartments')->get()
+        ,
                 'apartments' => $project->apartments,
                 'created_at' => $project->created_at,
                 'updated_at' => $project->updated_at,
-'media'=>[]
-//                'media' =>
-//                    $project->
-//                media()->orderBy('created_at', 'desc')->get()
-            ],
-//                    Inertia::defer(fn() =>
-//                    ),
-
-
+            ]   ,
             'media'=>
-//                Inertia::defer(fn()=>
             $project->getMedia()->toArray(),
             'customers' => Customer::all()
-            // ->with('floors')->with('apartments')
         ]);
     }
 

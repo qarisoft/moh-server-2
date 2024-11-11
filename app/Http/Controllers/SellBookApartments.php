@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Apartment;
 use App\Models\Customer;
 use App\Models\Project;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class SellBookApartments extends Controller
@@ -91,22 +92,16 @@ class SellBookApartments extends Controller
 
     }
 
-//    public function upload2(Request $request, Project $project)
-//    {
-//        try {
-//
-//        $project->addMediaFromUrl('https://drive.google.com/file/d/1KojNJ4XlAoVvSKCFE4zgQpxeKo4L4Bg_/view?usp=drive_link');
-//        }catch (Exception $exception){
-//
-//        }
-//    }
 
-    public function delete(Media $image)
+    public function delete(Media $image): RedirectResponse
     {
-        // $image->c
+        try{
 
         $image->delete();
-        return Redirect::back()->with('success', 'Contact created.');
+        }catch (Exception $exception){
+
+    }
+    return  redirect()->back();
 
     }
 

@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@inertiajs/react':
+        specifier: ^1.2.0
+        version: 1.2.0(react@18.3.1)
       '@radix-ui/react-dialog':
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -60,9 +63,6 @@ importers:
       '@headlessui/react':
         specifier: ^2.2.0
         version: 2.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@inertiajs/react':
-        specifier: 2.0.0-beta.2
-        version: 2.0.0-beta.2(react@18.3.1)
       '@tailwindcss/forms':
         specifier: ^0.5.9
         version: 0.5.9(tailwindcss@3.4.14)
@@ -364,11 +364,11 @@ packages:
       react: ^18 || ^19 || ^19.0.0-rc
       react-dom: ^18 || ^19 || ^19.0.0-rc
 
-  '@inertiajs/core@2.0.0-beta.2':
-    resolution: {integrity: sha512-2fi1YAncmkQAGko+miQanobF5anSO9lBK8i6Fgl0YKDjLQJg7+Sdr/yQIDwJtvFYgOgDbAhIcAawn9usc0/9bQ==}
+  '@inertiajs/core@1.2.0':
+    resolution: {integrity: sha512-6U0gqCPbGGGMcLoDm+ckKipc5gptZMmfVFfPGdO7vlO7yipWf1RD+TKkcZGJklFvfgFMKwK2VPw8GAv1OctuQA==}
 
-  '@inertiajs/react@2.0.0-beta.2':
-    resolution: {integrity: sha512-Zm3hWYvA0GNEHaqt3CPUBNz5NFQnxopOiAdYZ4HKrR/upsptMNcJ+JBQ7r0Wvmk3xaq9cbO3JiH7RvXUDxItxQ==}
+  '@inertiajs/react@1.2.0':
+    resolution: {integrity: sha512-Q3wTaQJdoUbUB8YIGeQ0y2Tf/k8dNtz9Nu2dYr1pbYUBv++6d45iC/CFB/lIpqVvvUw8XuIai2bdsUcRSIbPCQ==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18.0.0
 
@@ -2216,7 +2216,7 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@inertiajs/core@2.0.0-beta.2':
+  '@inertiajs/core@1.2.0':
     dependencies:
       axios: 1.7.7
       deepmerge: 4.3.1
@@ -2225,9 +2225,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@inertiajs/react@2.0.0-beta.2(react@18.3.1)':
+  '@inertiajs/react@1.2.0(react@18.3.1)':
     dependencies:
-      '@inertiajs/core': 2.0.0-beta.2
+      '@inertiajs/core': 1.2.0
       lodash.isequal: 4.5.0
       react: 18.3.1
     transitivePeerDependencies:
