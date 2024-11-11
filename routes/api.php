@@ -15,7 +15,7 @@ Route::get('/projects', function (Request $request) {
             return [
                 'title' => $item->name,
                 'description' => $item->description,
-                'media' => $item->getMedia()->map(function ($item) {
+                'images' => $item->getMedia()->map(function ($item) {
                     return [
                         'path' => $item->original_url,
                     ];
