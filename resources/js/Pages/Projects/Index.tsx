@@ -25,33 +25,11 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/Components/ui/drop-down";
-
-export type Project = {
-    id: number
-    name: string
-    is_active: boolean
-    description: string
-    created_at: string
-    updated_at: string
-}
+import {A, Paginate, PFormType, Project} from "@/types";
 
 type P = Project & {
     floors_count: number
     apartments_count: number
-}
-type Paginate<T> = {
-    data: T[]
-}
-type  A = {
-    id: number
-    floor: number
-
-    apartments: number
-}
-type PFormType = {
-    name: string
-    description: string
-    items: A[]
 }
 
 const Add = () => {
