@@ -1,9 +1,8 @@
 import Spinner from "@/Components/ui/spinner";
 import {useForm} from "@inertiajs/react";
-import {Delete, Upload} from "lucide-react";
+import {Delete, Upload, X} from "lucide-react";
 import {FC, useEffect} from "react";
 import {toast} from "sonner";
-import {CaretRightIcon} from "@radix-ui/react-icons";
 
 const ImageUploader: FC<{ pId: number; image?: string; inpRef: any }> = ({
     pId,
@@ -66,7 +65,7 @@ const ImageUploader: FC<{ pId: number; image?: string; inpRef: any }> = ({
                                         className="text-white"
                                     />
 
-                                    <CaretRightIcon onClick={()=>cancel()}/>
+                                    <X onClick={()=>cancel()}/>
                                 </>
                             ) : (
                                 <>

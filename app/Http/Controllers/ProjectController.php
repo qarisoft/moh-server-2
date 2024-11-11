@@ -80,7 +80,9 @@ class ProjectController extends Controller
 //                    ),
 
 
-            'media'=>Inertia::defer(fn()=>$project->getMedia()->toArray()),
+            'media'=>
+//                Inertia::defer(fn()=>
+            $project->getMedia()->toArray(),
             'customers' => Customer::all()
             // ->with('floors')->with('apartments')
         ]);

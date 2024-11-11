@@ -91,6 +91,15 @@ class SellBookApartments extends Controller
 
     }
 
+//    public function upload2(Request $request, Project $project)
+//    {
+//        try {
+//
+//        $project->addMediaFromUrl('https://drive.google.com/file/d/1KojNJ4XlAoVvSKCFE4zgQpxeKo4L4Bg_/view?usp=drive_link');
+//        }catch (Exception $exception){
+//
+//        }
+//    }
 
     public function delete(Media $image)
     {

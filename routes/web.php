@@ -6,6 +6,7 @@ use App\Http\Controllers\FloorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SellBookApartments;
+use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -27,6 +28,7 @@ Route::post('/projects/{id}/sell', [SellBookApartments::class, 'sell'])->name('p
 Route::post('/projects/{id}/cancel', [SellBookApartments::class, 'cancel'])->name('projects.cancel');
 
 Route::post('/projects/{project}/image/upload', [SellBookApartments::class, 'upload'])->name('projects.add.photo');
+Route::post('/projects/{project}/image/upload2', [SellBookApartments::class, 'upload2'])->name('projects.add.photo2');
 Route::delete('/projects/{image}/delete', [SellBookApartments::class, 'delete'])->name('projects.delete.image');
 
 Route::post('/projects/{project}/add-floor-ap', [ProjectController::class, 'addFloorWithApartments'])->name('projects.add.floor-ap');
@@ -44,7 +46,7 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('/test', function () {
-    return \App\Models\Project::all()->map(function ($project) {
+    return Project::all()->map(function ($project) {
         return [
             'id' => $project->id,
             'media' => $project->getMedia()
