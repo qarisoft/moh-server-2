@@ -37,7 +37,7 @@ const PhotoTap:FC<Props> = ({cl,projectId,media}) => {
                     {media.map((img: Media, i: number) => (
                         <div
                             key={i}
-                            className="relative lg:w-[calc(96%/3)] "
+                            className="relative lg:w-[calc(96%/2)] "
                         >
                             <ImgLoader mediaItm={img}/>
 

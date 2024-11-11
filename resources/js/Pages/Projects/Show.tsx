@@ -1,5 +1,6 @@
 import React, {FC, useState,} from "react";
-import {Deferred, useForm} from "@inertiajs/react";
+import * as Inertia from "@inertiajs/react";
+import {useForm} from "@inertiajs/react";
 import PageLayout from "@/Pages/Projects/layout";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/Components/ui/taps";
 import {Customer, Media, P} from "@/types";
@@ -54,7 +55,7 @@ export default function Show({
                     </TabsList>
 
                     <TabsContent value="1">
-                        <Deferred data={'media'} fallback={<>
+                        <Inertia.Deferred data={'media'} fallback={<>
                         loading
                         </>}>
                             {/*<Test media={media} />*/}
@@ -62,7 +63,7 @@ export default function Show({
                                             {/*    */}
                                             {/*</div>*/}
                             <PhotoTap cl={cl} projectId={project.id} customers={customers} media={media}/>
-                        </Deferred>
+                        </Inertia.Deferred>
                     </TabsContent>
                     <TabsContent value="0" className={""}>
                         <ApartmentsTap
