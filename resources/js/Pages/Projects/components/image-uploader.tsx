@@ -39,7 +39,7 @@ const ImageUploader: FC<{ pId: number; image?: string; inpRef: any }> = ({
     return (
         <>
             <div
-                className="relative w-full flex  text-center items-start justify-cente justify-between lg:w-[calc(96%/3)] h-fit "
+                className="relative w-full flex  text-center items-start justify-cente justify-between lg:w-[calc(96%/2)] h-fit "
                 style={{ display: data.photo ? "flex" : "none" }}
             >
                 {data.photo ? (

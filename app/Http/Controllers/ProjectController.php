@@ -73,6 +73,7 @@ class ProjectController extends Controller
                 'apartments' => $project->apartments,
                 'created_at' => $project->created_at,
                 'updated_at' => $project->updated_at,
+                'media'=>$project->media()->orderBy('created_at', 'desc')->get()
             ]   ,
             'media'=>
             $project->getMedia()->toArray(),

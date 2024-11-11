@@ -54,7 +54,7 @@ export default function Show({
                     </TabsList>
 
                     <TabsContent value="1">
-                            <PhotoTap cl={cl} projectId={project.id} customers={customers} media={media}/>
+                            <PhotoTap cl={cl} projectId={project.id} customers={customers} media={project.media}/>
                     </TabsContent>
                     <TabsContent value="0" className={""}>
                         <ApartmentsTap
